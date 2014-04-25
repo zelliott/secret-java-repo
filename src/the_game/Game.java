@@ -7,11 +7,25 @@ import javax.swing.*;
 
 public class Game implements Runnable {
 
+	private static final int WINDOW_MIN_WIDTH = 700;
+	private static final int WINDOW_MIN_HEIGHT = 700;
+	
 	@Override
 	public void run() {
 		final JFrame topLevelFrame = new JFrame("TOP LEVEL FRAME");
 		
-		topLevelFrame.add(new ChessBoard());
+		// Panel containing ChessBoard and GameInfoPanel
+		final JPanel topLevelContentPanel = new JPanel();
+		topLevelContentPanel.add(new ChessBoard());
+		topLevelContentPanel.add(new GameInfoPanel());
+		
+		// Layout organizing GameHeaderPanel and topLevelContentPanel
+		topLevelFrame.setLayout(new BoxLayout(topLevelFrame.getContentPane(), BoxLayout.Y_AXIS));	
+		topLevelFrame.add(new GameHeaderPanel());
+		topLevelFrame.add(topLevelContentPanel);
+		
+		// Set minimum frame size
+		topLevelFrame.setMinimumSize(new Dimension(WINDOW_MIN_WIDTH,WINDOW_MIN_HEIGHT));
 		
 		// Put the frame on the screen
 		topLevelFrame.pack();
