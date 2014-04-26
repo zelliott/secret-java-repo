@@ -63,6 +63,18 @@ public class ChessBoard extends JPanel {
 					((Square)c).setIcon(new King("black"));
 				} else if(count>=8 && count<=15) {
 					((Square)c).setIcon(new Pawn("black"));
+				} else if(count>=48 && count<=55) {
+					((Square)c).setIcon(new Pawn("white"));
+				} else if(count==56 || count==63) {
+					((Square)c).setIcon(new Rook("white"));
+				} else if(count==57 || count==62) {
+					((Square)c).setIcon(new Knight("white"));
+				} else if(count==58 || count==61) {
+					((Square)c).setIcon(new Bishop("white"));
+				} else if(count==59) {
+					((Square)c).setIcon(new Queen("white"));
+				} else if(count==60) {
+					((Square)c).setIcon(new King("white"));
 				} else {
 					// Don't add a piece
 				}

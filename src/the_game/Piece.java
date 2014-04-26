@@ -15,8 +15,13 @@ import java.io.IOException;
 public abstract class Piece extends ImageIcon {
 	
 	private BufferedImage image;
+	private PieceType storedPieceType;
 	
 	public Piece(String color, PieceType p) throws IOException {
+		
+		// Store the PieceType
+		storedPieceType = p;
+		
 		String pieceTypeName = "";
 		switch (p) {
 		case ROOK:
@@ -59,5 +64,9 @@ public abstract class Piece extends ImageIcon {
 			}
 			setImage(image);
 		}
+	}
+	
+	public PieceType getPieceType() {
+		return storedPieceType;
 	}
 }

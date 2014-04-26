@@ -15,6 +15,11 @@ public class Square extends JButton {
 		setPreferredSize(new Dimension(MIN_SQUARE_WIDTH, MIN_SQUARE_HEIGHT));
         setOpaque(true);
         setBorderPainted(false);
+        addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		squareClicked();
+        	}
+        });
 	}
 	
 	public Dimension getSquareDimension() {
@@ -24,4 +29,9 @@ public class Square extends JButton {
 	public boolean hasPiece() {
 		return getIcon() != null;
 	}
+	
+	public void squareClicked() {
+		setBackground(Color.RED);
+	}
+	
 }
