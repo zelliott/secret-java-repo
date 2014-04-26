@@ -2,6 +2,7 @@ package the_game;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 import javax.swing.*;
 
@@ -16,8 +17,18 @@ public class Game implements Runnable {
 		
 		// Panel containing ChessBoard and GameInfoPanel
 		final JPanel topLevelContentPanel = new JPanel();
-		topLevelContentPanel.add(new ChessBoard());
+		ChessBoard board = new ChessBoard();
+		topLevelContentPanel.add(board);
 		topLevelContentPanel.add(new GameInfoPanel());
+		
+		
+		// Initialize ChessBoard
+		try {
+			board.initialize();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		// Layout organizing GameHeaderPanel and topLevelContentPanel
 		topLevelFrame.setLayout(new BoxLayout(topLevelFrame.getContentPane(), BoxLayout.Y_AXIS));	
