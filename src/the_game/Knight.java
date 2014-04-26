@@ -14,8 +14,8 @@ public class Knight extends Piece {
 	
 	private BufferedImage image;
 	
-	public Knight(String color) throws IOException {
-		super(color, KNIGHT);
+	public Knight(TeamColor tc) throws IOException {
+		super(tc, KNIGHT);
 	}
 
 }

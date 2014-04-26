@@ -14,8 +14,8 @@ public class King extends Piece {
 	
 	private BufferedImage image;
 	
-	public King(String color) throws IOException {
-		super(color, KING);
+	public King(TeamColor tc) throws IOException {
+		super(tc, KING);
 	}
 
 }

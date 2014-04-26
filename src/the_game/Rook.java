@@ -14,8 +14,8 @@ public class Rook extends Piece {
 	
 	private BufferedImage image;
 	
-	public Rook(String color) throws IOException {
-		super(color, ROOK);
+	public Rook(TeamColor tc) throws IOException {
+		super(tc, ROOK);
 	}
 
 }

@@ -14,8 +14,8 @@ public class Pawn extends Piece {
 	
 	private BufferedImage image;
 	
-	public Pawn(String color) throws IOException {
-		super(color, PAWN);
+	public Pawn(TeamColor tc) throws IOException {
+		super(tc, PAWN);
 	}
 
 }

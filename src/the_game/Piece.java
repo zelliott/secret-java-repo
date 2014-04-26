@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.Graphics;
 import java.io.File;
 import java.io.IOException;
+import static the_game.TeamColor.*;
 
 
 public abstract class Piece extends ImageIcon {
@@ -17,12 +18,13 @@ public abstract class Piece extends ImageIcon {
 	private BufferedImage image;
 	private PieceType storedPieceType;
 	
-	public Piece(String color, PieceType p) throws IOException {
+	public Piece(TeamColor tc, PieceType p) throws IOException {
 		
 		// Store the PieceType
 		storedPieceType = p;
 		
 		String pieceTypeName = "";
+		
 		switch (p) {
 		case ROOK:
 			pieceTypeName = "rook";
@@ -55,9 +57,9 @@ public abstract class Piece extends ImageIcon {
 			// This should never happen
 			// If it does it means that somehow no PieceType was assigned
 		} else {
-			if(color.equals("black")) {
+			if(tc.equals(BLACK)) {
 				image = ImageIO.read(new File("b_" + pieceTypeName + ".png"));
-			} else if(color.equals("white")) {
+			} else if(tc.equals(WHITE)) {
 				image = ImageIO.read(new File("w_" + pieceTypeName + ".png"));
 			} else {
 				// Not a color

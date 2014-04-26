@@ -14,8 +14,8 @@ public class Bishop extends Piece {
 	
 	private BufferedImage image;
 	
-	public Bishop(String color) throws IOException {
-		super(color, BISHOP);
+	public Bishop(TeamColor tc) throws IOException {
+		super(tc, BISHOP);
 	}
 
 }

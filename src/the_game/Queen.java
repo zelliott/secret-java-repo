@@ -14,8 +14,8 @@ public class Queen extends Piece {
 	
 	private BufferedImage image;
 	
-	public Queen(String color) throws IOException {
-		super(color, QUEEN);
+	public Queen(TeamColor tc) throws IOException {
+		super(tc, QUEEN);
 	}
 
 }
