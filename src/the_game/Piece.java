@@ -35,9 +35,6 @@ public abstract class Piece extends ImageIcon {
 		// Store the TeamColor
 		storedPieceColor = tc;
 		
-		// Store the position
-		storedPosition = getParent().getPosition();
-		
 		String pieceTypeName = "";
 		
 		switch (p) {
@@ -81,6 +78,9 @@ public abstract class Piece extends ImageIcon {
 			}
 			setImage(image);
 		}
+		
+		// Generate the possible legal moves
+		possibleMoves = cleanLegalMoves(getLegalMoves(storedPosition));
 	}
 	
 	public PieceType getPieceType() {
@@ -99,6 +99,21 @@ public abstract class Piece extends ImageIcon {
 	// Sets the focus of this piece to a different value
 	public void setFocus(boolean focused) {
 		this.focused = focused;
+	}
+	
+	// Sets the position
+	public void setPosition(int[] position) {
+		storedPosition = position;
+	}
+	
+	// Updates the possible legal moves of this piece
+	public void updatePossibleMoves() {
+		possibleMoves = cleanLegalMoves(getLegalMoves(storedPosition));
+	}
+	
+	// Returns the possible legal moves of this piece
+	public ArrayList<int[]> getPossibleMoves() {
+		return possibleMoves;
 	}
 	
 	// Returns an ArrayList of legal positions the piece can move in

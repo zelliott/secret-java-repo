@@ -119,8 +119,18 @@ public class Square extends JButton {
 					if(!this.equals(s)) {
 						movePiece(s);
 						
+						// Updates that piece's possible moves
+						(s.getPiece()).updatePossibleMoves();
+						
 						// Switch players' turn
 						ChessBoard.switchTurn();
+						
+						// Test input
+						String test = "";
+						for(int[] position : (s.getPiece()).getPossibleMoves()) {
+							test += position[0] + ", " + position[1] + "; ";
+						}
+						GameInfoPanel.isCheck.setText(test);
 					}
 				}
 			}

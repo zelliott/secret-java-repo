@@ -24,6 +24,8 @@ public class ChessBoard extends JPanel {
 	private static final String[] boardLabels = {" ", "a", "b", "c", "d", "e", "f", "g", "h", 
 												 "8", "7", "6", "5", "4", "3", "2", "1"};
 	
+	private static boolean inCheck = false;
+	
 	// Controls the turns of the game
 	private static TeamColor turn = WHITE;
 	
@@ -63,29 +65,53 @@ public class ChessBoard extends JPanel {
 		int count = 0;
 		for(Square s : BOARD_SQUARES) {
 			if(count==0 || count==7) {
-				s.setIcon(new Rook(BLACK));
+				Rook rook = new Rook(BLACK);
+				s.setIcon(rook);
+				rook.setPosition(s.getPosition());
 			} else if(count==1 || count==6) {
-				s.setIcon(new Knight(BLACK));
+				Knight knight = new Knight(BLACK);
+				s.setIcon(knight);
+				knight.setPosition(s.getPosition());
 			} else if(count==2 || count==5) {
-				s.setIcon(new Bishop(BLACK));
+				Bishop bishop = new Bishop(BLACK);
+				s.setIcon(bishop);
+				bishop.setPosition(s.getPosition());
 			} else if(count==3) {
-				s.setIcon(new Queen(BLACK));
+				Queen queen = new Queen(BLACK);
+				s.setIcon(queen);
+				queen.setPosition(s.getPosition());
 			} else if(count==4) {
-				s.setIcon(new King(BLACK));
+				King king = new King(BLACK);
+				s.setIcon(king);
+				king.setPosition(s.getPosition());
 			} else if(count>=8 && count<=15) {
-				s.setIcon(new Pawn(BLACK));
+				Pawn pawn = new Pawn(BLACK);
+				s.setIcon(pawn);
+				pawn.setPosition(s.getPosition());
 			} else if(count>=48 && count<=55) {
-				s.setIcon(new Pawn(WHITE));
+				Pawn pawn = new Pawn(WHITE);
+				s.setIcon(pawn);
+				pawn.setPosition(s.getPosition());
 			} else if(count==56 || count==63) {
-				s.setIcon(new Rook(WHITE));
+				Rook rook = new Rook(WHITE);
+				s.setIcon(rook);
+				rook.setPosition(s.getPosition());
 			} else if(count==57 || count==62) {
-				s.setIcon(new Knight(WHITE));
+				Knight knight = new Knight(WHITE);
+				s.setIcon(knight);
+				knight.setPosition(s.getPosition());
 			} else if(count==58 || count==61) {
-				s.setIcon(new Bishop(WHITE));
+				Bishop bishop = new Bishop(WHITE);
+				s.setIcon(bishop);
+				bishop.setPosition(s.getPosition());
 			} else if(count==59) {
-				s.setIcon(new Queen(WHITE));
+				Queen queen = new Queen(WHITE);
+				s.setIcon(queen);
+				queen.setPosition(s.getPosition());
 			} else if(count==60) {
-				s.setIcon(new King(WHITE));
+				King king = new King(WHITE);
+				s.setIcon(king);
+				king.setPosition(s.getPosition());
 			} else {
 				// Don't add a piece
 			}
@@ -130,9 +156,15 @@ public class ChessBoard extends JPanel {
 	public static void switchTurn() {
 		if(turn.equals(WHITE)) {
 			turn = BLACK;
+			GameInfoPanel.whoseTurn.setText("Black's Turn");
 		} else {
 			turn = WHITE;
+			GameInfoPanel.whoseTurn.setText("White's Turn");
 		}
+	}
+	
+	public static void testCheck() {
+		
 	}
 	
 }
