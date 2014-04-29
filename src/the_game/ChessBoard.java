@@ -23,6 +23,9 @@ public class ChessBoard extends JPanel {
 	private static final String[] boardLabels = {" ", "a", "b", "c", "d", "e", "f", "g", "h", 
 												 "8", "7", "6", "5", "4", "3", "2", "1"};
 	
+	// Controls the turns of the game
+	private static TeamColor turn = WHITE;
+	
 	public ChessBoard() {
 		boardPanel.setLayout(boardLayout);
 		
@@ -100,4 +103,27 @@ public class ChessBoard extends JPanel {
 		}
 		return null;
 	}
+	
+	// Clears the focus/coloring of the entire board
+	public static void clearFocus() {
+		for(Square s : ChessBoard.BOARD_SQUARES) {
+			s.setTempBackgroundColor((s).getBackgroundColor());
+			if(s.hasPiece()) {
+				s.getPiece().setFocus(false);
+			}
+		}
+	}
+	
+	public static TeamColor getTurn() {
+		return turn;
+	}
+	
+	public static void switchTurn() {
+		if(turn.equals(WHITE)) {
+			turn = BLACK;
+		} else {
+			turn = WHITE;
+		}
+	}
+	
 }

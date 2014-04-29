@@ -24,8 +24,35 @@ public class Queen extends Piece {
 
 	@Override
 	public ArrayList<int[]> getLegalMoves(int[] position) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<int[]> listOfLegalMoves = new ArrayList<int[]>();
+		
+		// Legal moves for queen
+		for(int i=1; i<8; i++) {
+			listOfLegalMoves.add(new int[]{position[0]-i, position[1]-i});
+		}
+		for(int i=1; i<8; i++) {
+			listOfLegalMoves.add(new int[]{position[0]+i, position[1]+i});
+		}
+		for(int i=1; i<8; i++) {
+			listOfLegalMoves.add(new int[]{position[0]+i, position[1]-i});
+		}
+		for(int i=1; i<8; i++) {
+			listOfLegalMoves.add(new int[]{position[0]-i, position[1]+i});
+		}
+		for(int i=1; i<8; i++) {
+			listOfLegalMoves.add(new int[]{position[0], position[1]-i});
+		}
+		for(int i=1; i<8; i++) {
+			listOfLegalMoves.add(new int[]{position[0], position[1]+i});
+		}
+		for(int i=1; i<8; i++) {
+			listOfLegalMoves.add(new int[]{position[0]-i, position[1]});
+		}
+		for(int i=1; i<8; i++) {
+			listOfLegalMoves.add(new int[]{position[0]+i, position[1]});
+		}
+		
+		return listOfLegalMoves;
 	}
 
 }

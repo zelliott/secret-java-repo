@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static the_game.PieceType.*;
 import static the_game.TeamColor.*;
@@ -27,11 +28,28 @@ public class Pawn extends Piece {
 		
 		// Two legal moves for pawn, up one or up two
 		if(super.getTeamColor() == TeamColor.WHITE) {
-			listOfLegalMoves.add(new int[]{position[0], position[1]-1});
-			listOfLegalMoves.add(new int[]{position[0], position[1]-2});
+			if(position[1]==7) {
+				listOfLegalMoves.add(new int[]{position[0], position[1]-1});
+				listOfLegalMoves.add(new int[]{position[0], position[1]-2});
+			} else {
+				listOfLegalMoves.add(new int[]{position[0], position[1]-1});
+			}
 		} else { // Must be white or black
-			listOfLegalMoves.add(new int[]{position[0], position[1]+1});
-			listOfLegalMoves.add(new int[]{position[0], position[1]+2});
+			if(position[1]==2) {
+				listOfLegalMoves.add(new int[]{position[0], position[1]+1});
+				listOfLegalMoves.add(new int[]{position[0], position[1]+2});
+			} else {
+				listOfLegalMoves.add(new int[]{position[0], position[1]+1});
+			}
+		}
+		
+		// Remove moves if they are illegal
+		for(int[] move : listOfLegalMoves) {
+			for(Square s : ChessBoard.BOARD_SQUARES) {
+				if(Arrays.equals(s.getPosition(), move)) {
+					
+				}
+			}
 		}
 		
 		return listOfLegalMoves;

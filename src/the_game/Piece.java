@@ -97,5 +97,4 @@ public abstract class Piece extends ImageIcon {
 	// Returns an ArrayList of legal positions the piece can move in
 	public abstract ArrayList<int[]> getLegalMoves(int[] position);
 	
-	
 }

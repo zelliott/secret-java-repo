@@ -24,8 +24,19 @@ public class King extends Piece {
 
 	@Override
 	public ArrayList<int[]> getLegalMoves(int[] position) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<int[]> listOfLegalMoves = new ArrayList<int[]>();
+
+		// Eight legal moves for king
+		listOfLegalMoves.add(new int[]{position[0], position[1]-1});
+		listOfLegalMoves.add(new int[]{position[0]-1, position[1]});
+		listOfLegalMoves.add(new int[]{position[0], position[1]+1});
+		listOfLegalMoves.add(new int[]{position[0]+1, position[1]});
+		listOfLegalMoves.add(new int[]{position[0]+1, position[1]+1});
+		listOfLegalMoves.add(new int[]{position[0]+1, position[1]-1});
+		listOfLegalMoves.add(new int[]{position[0]-1, position[1]+1});
+		listOfLegalMoves.add(new int[]{position[0]-1, position[1]-1});
+		
+		return listOfLegalMoves;
 	}
 
 }
