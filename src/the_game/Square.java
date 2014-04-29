@@ -45,7 +45,11 @@ public class Square extends JButton {
 	}
 	
 	public boolean hasPiece() {
-		return (getIcon() != null);
+		try {
+			return getIcon() != null;
+		}  catch(NullPointerException e) {
+			return false;
+		}
 	}
 	
 	public Piece getPiece() {
@@ -100,7 +104,10 @@ public class Square extends JButton {
 				for(int[] move : legalMoves) {
 					for(Square s : ChessBoard.BOARD_SQUARES) {
 						if(Arrays.equals(s.getPosition(), move)) {
-							// Remove move if you would capture your own piece
+							
+							// IMPORTANT CHECK
+							// Checks to make sure that you are not removing your own piece
+							// NOTE: There has to be a cleaner way to write this...
 							if(s.hasPiece()) {
 								boolean notCapturingYourOwnPiece = !((s.getPiece()).getTeamColor()).equals(ChessBoard.getTurn());
 								if(notCapturingYourOwnPiece) {
@@ -109,10 +116,12 @@ public class Square extends JButton {
 							} else {
 								s.setTempBackgroundColor(Color.ORANGE);
 							}
+							
 						}
 					}
 				}
 			}
+			
 		// If a square is clicked that IS colored...
 		} else {
 			for(Square s : ChessBoard.BOARD_SQUARES) {

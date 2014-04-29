@@ -95,6 +95,9 @@ public abstract class Piece extends ImageIcon {
 	}
 	
 	// Returns an ArrayList of legal positions the piece can move in
+	// NOTE:  The ArrayList this returns doesn't include PERFECTLY
+	// legal moves.  In Square.java, I still test to make sure that the
+	// write person is moving and that you are not capturing your own pieces.
 	public abstract ArrayList<int[]> getLegalMoves(int[] position);
 	
 }

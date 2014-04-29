@@ -28,19 +28,69 @@ public class Pawn extends Piece {
 		
 		// Add moves
 		if(super.getTeamColor() == TeamColor.WHITE) {
-			// Move up 1 or 2 depending on row
+			// Save possible move locations
+			int[] positionFrontOfPawn = new int[]{position[0], position[1]-1};
+			int[] positionTwoMovesFrontOfPawn = new int[]{position[0], position[1]-2};
+			int[] positionLeftOfPawn = new int[]{position[0]-1, position[1]-1};
+			int[] positionRightOfPawn = new int[]{position[0]+1, position[1]-1};
+			
+			// If pawn is on the first row
 			if(position[1]==7) {
-				listOfLegalMoves.add(new int[]{position[0], position[1]-2});
+				// If there is NOT a piece on positionFrontOfPawn
+				if(!(ChessBoard.hasSquare(positionFrontOfPawn) && (ChessBoard.getSquare(positionFrontOfPawn)).hasPiece())) {
+					listOfLegalMoves.add(positionFrontOfPawn);
+				}
+				// If there is NOT a piece on positionTwoMovesFrontOfPawn
+				if(!(ChessBoard.hasSquare(positionTwoMovesFrontOfPawn) && (ChessBoard.getSquare(positionTwoMovesFrontOfPawn)).hasPiece())) {
+					listOfLegalMoves.add(positionTwoMovesFrontOfPawn);
+				}
+			} else {
+				// If there is NOT a piece on positionFrontOfPawn
+				if(!(ChessBoard.hasSquare(positionFrontOfPawn) && (ChessBoard.getSquare(positionFrontOfPawn)).hasPiece())) {
+					listOfLegalMoves.add(positionFrontOfPawn);
+				}
 			}
-			listOfLegalMoves.add(new int[]{position[0], position[1]-1});
 			
-			// Check to see if diagonal capturing is allowed
+			// If there IS a piece on the positionLeftOfPawn
+			if((ChessBoard.hasSquare(positionLeftOfPawn) && (ChessBoard.getSquare(positionLeftOfPawn)).hasPiece())) {
+				listOfLegalMoves.add(positionLeftOfPawn);
+				
+			}// If there IS a piece on the positionRightOfPawn
+			if((ChessBoard.hasSquare(positionRightOfPawn) && (ChessBoard.getSquare(positionRightOfPawn)).hasPiece())) {
+				listOfLegalMoves.add(positionRightOfPawn);
+			}
+		} else { // TeamColor.BLACK
+			// Save possible move locations
+			int[] positionFrontOfPawn = new int[]{position[0], position[1]+1};
+			int[] positionTwoMovesFrontOfPawn = new int[]{position[0], position[1]+2};
+			int[] positionLeftOfPawn = new int[]{position[0]-1, position[1]+1};
+			int[] positionRightOfPawn = new int[]{position[0]+1, position[1]+1};
 			
-		} else { // Must be white or black
+			// If pawn is on the first row
 			if(position[1]==2) {
-				listOfLegalMoves.add(new int[]{position[0], position[1]+2});
+				// If there is NOT a piece on positionFrontOfPawn
+				if(!(ChessBoard.hasSquare(positionFrontOfPawn) && (ChessBoard.getSquare(positionFrontOfPawn)).hasPiece())) {
+					listOfLegalMoves.add(positionFrontOfPawn);
+				}
+				// If there is NOT a piece on positionTwoMovesFrontOfPawn
+				if(!(ChessBoard.hasSquare(positionTwoMovesFrontOfPawn) && (ChessBoard.getSquare(positionTwoMovesFrontOfPawn)).hasPiece())) {
+					listOfLegalMoves.add(positionTwoMovesFrontOfPawn);
+				}
+			} else {
+				// If there is NOT a piece on positionFrontOfPawn
+				if(!(ChessBoard.hasSquare(positionFrontOfPawn) && (ChessBoard.getSquare(positionFrontOfPawn)).hasPiece())) {
+					listOfLegalMoves.add(positionFrontOfPawn);
+				}
 			}
-			listOfLegalMoves.add(new int[]{position[0], position[1]+1});
+			
+			// If there IS a piece on the positionLeftOfPawn
+			if((ChessBoard.hasSquare(positionLeftOfPawn) && (ChessBoard.getSquare(positionLeftOfPawn)).hasPiece())) {
+				listOfLegalMoves.add(positionLeftOfPawn);
+				
+			}// If there IS a piece on the positionRightOfPawn
+			if((ChessBoard.hasSquare(positionRightOfPawn) && (ChessBoard.getSquare(positionRightOfPawn)).hasPiece())) {
+				listOfLegalMoves.add(positionRightOfPawn);
+			}
 		}
 		
 		// Remove moves if they are illegal

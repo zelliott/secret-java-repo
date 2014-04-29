@@ -93,22 +93,29 @@ public class ChessBoard extends JPanel {
 		}
 	}
 	
+	public static boolean hasSquare(int[] position) {
+		for(Square s: BOARD_SQUARES) {
+			if(Arrays.equals(s.getPosition(), position)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	// Given the position of a square, return it
 	// I hate returning null
-	// Also not currently using
 	public static Square getSquare(int[] position) {
 		for(Square s : BOARD_SQUARES) {
 			if(Arrays.equals(s.getPosition(), position)) {
 				return s;
 			}
 		}
-		// What is this return... :\
 		return null;
 	}
 	
 	// Clears the focus/coloring of the entire board
 	public static void clearFocus() {
-		for(Square s : ChessBoard.BOARD_SQUARES) {
+		for(Square s : BOARD_SQUARES) {
 			s.setTempBackgroundColor((s).getBackgroundColor());
 			if(s.hasPiece()) {
 				s.getPiece().setFocus(false);

@@ -28,28 +28,84 @@ public class Queen extends Piece {
 		
 		// Legal moves for queen
 		for(int i=1; i<8; i++) {
-			listOfLegalMoves.add(new int[]{position[0]-i, position[1]-i});
+			int x = position[0]-i;
+			int y = position[1]-i;
+			int[] tempPosition = new int[]{x,y};
+			if(ChessBoard.hasSquare(tempPosition) && (ChessBoard.getSquare(tempPosition)).hasPiece()) {
+				break;
+			} else {
+				listOfLegalMoves.add(tempPosition);
+			}
 		}
 		for(int i=1; i<8; i++) {
-			listOfLegalMoves.add(new int[]{position[0]+i, position[1]+i});
+			int x = position[0]+i;
+			int y = position[1]+i;
+			int[] tempPosition = new int[]{x,y};
+			if(ChessBoard.hasSquare(tempPosition) && (ChessBoard.getSquare(tempPosition)).hasPiece()) {
+				break;
+			} else {
+				listOfLegalMoves.add(tempPosition);
+			}
 		}
 		for(int i=1; i<8; i++) {
-			listOfLegalMoves.add(new int[]{position[0]+i, position[1]-i});
+			int x = position[0]-i;
+			int y = position[1]+i;
+			int[] tempPosition = new int[]{x,y};
+			if(ChessBoard.hasSquare(tempPosition) && (ChessBoard.getSquare(tempPosition)).hasPiece()) {
+				break;
+			} else {
+				listOfLegalMoves.add(tempPosition);
+			}
 		}
 		for(int i=1; i<8; i++) {
-			listOfLegalMoves.add(new int[]{position[0]-i, position[1]+i});
+			int x = position[0]+i;
+			int y = position[1]-i;
+			int[] tempPosition = new int[]{x,y};
+			if(ChessBoard.hasSquare(tempPosition) && (ChessBoard.getSquare(tempPosition)).hasPiece()) {
+				break;
+			} else {
+				listOfLegalMoves.add(tempPosition);
+			}
 		}
 		for(int i=1; i<8; i++) {
-			listOfLegalMoves.add(new int[]{position[0], position[1]-i});
+			int x = position[0];
+			int y = position[1]-i;
+			int[] tempPosition = new int[]{x,y};
+			if(ChessBoard.hasSquare(tempPosition) && (ChessBoard.getSquare(tempPosition)).hasPiece()) {
+				break;
+			} else {
+				listOfLegalMoves.add(tempPosition);
+			}
 		}
 		for(int i=1; i<8; i++) {
-			listOfLegalMoves.add(new int[]{position[0], position[1]+i});
+			int x = position[0];
+			int y = position[1]+i;
+			int[] tempPosition = new int[]{x,y};
+			if(ChessBoard.hasSquare(tempPosition) && (ChessBoard.getSquare(tempPosition)).hasPiece()) {
+				break;
+			} else {
+				listOfLegalMoves.add(tempPosition);
+			}
 		}
 		for(int i=1; i<8; i++) {
-			listOfLegalMoves.add(new int[]{position[0]-i, position[1]});
+			int x = position[0]-i;
+			int y = position[1];
+			int[] tempPosition = new int[]{x,y};
+			if(ChessBoard.hasSquare(tempPosition) && (ChessBoard.getSquare(tempPosition)).hasPiece()) {
+				break;
+			} else {
+				listOfLegalMoves.add(tempPosition);
+			}
 		}
 		for(int i=1; i<8; i++) {
-			listOfLegalMoves.add(new int[]{position[0]+i, position[1]});
+			int x = position[0]+i;
+			int y = position[1];
+			int[] tempPosition = new int[]{x,y};
+			if(ChessBoard.hasSquare(tempPosition) && (ChessBoard.getSquare(tempPosition)).hasPiece()) {
+				break;
+			} else {
+				listOfLegalMoves.add(tempPosition);
+			}
 		}
 		
 		return listOfLegalMoves;

@@ -30,37 +30,41 @@ public class Rook extends Piece {
 		for(int i=1; i<8; i++) {
 			int x = position[0];
 			int y = position[1]-i;
-			if((ChessBoard.getSquare(new int[]{x,y})).hasPiece()) {
+			int[] tempPosition = new int[]{x,y};
+			if(ChessBoard.hasSquare(tempPosition) && (ChessBoard.getSquare(tempPosition)).hasPiece()) {
 				break;
 			} else {
-				listOfLegalMoves.add(new int[]{x,y});
+				listOfLegalMoves.add(tempPosition);
 			}
 		}
 		for(int i=1; i<8; i++) {
 			int x = position[0];
 			int y = position[1]+i;
-			if((ChessBoard.getSquare(new int[]{x,y})).hasPiece()) {
+			int[] tempPosition = new int[]{x,y};
+			if(ChessBoard.hasSquare(tempPosition) && (ChessBoard.getSquare(tempPosition)).hasPiece()) {
 				break;
 			} else {
-				listOfLegalMoves.add(new int[]{x,y});
+				listOfLegalMoves.add(tempPosition);
 			}
 		}
 		for(int i=1; i<8; i++) {
 			int x = position[0]-i;
 			int y = position[1];
-			if((ChessBoard.getSquare(new int[]{x,y})).hasPiece()) {
+			int[] tempPosition = new int[]{x,y};
+			if(ChessBoard.hasSquare(tempPosition) && (ChessBoard.getSquare(tempPosition)).hasPiece()) {
 				break;
 			} else {
-				listOfLegalMoves.add(new int[]{x,y});
+				listOfLegalMoves.add(tempPosition);
 			}
 		}
 		for(int i=1; i<8; i++) {
 			int x = position[0]+i;
 			int y = position[1];
-			if((ChessBoard.getSquare(new int[]{x,y})).hasPiece()) {
+			int[] tempPosition = new int[]{x,y};
+			if(ChessBoard.hasSquare(tempPosition) && (ChessBoard.getSquare(tempPosition)).hasPiece()) {
 				break;
 			} else {
-				listOfLegalMoves.add(new int[]{x,y});
+				listOfLegalMoves.add(tempPosition);
 			}
 		}
 		
