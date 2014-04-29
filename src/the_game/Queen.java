@@ -108,7 +108,7 @@ public class Queen extends Piece {
 			}
 		}
 		
-		return listOfLegalMoves;
+		return super.cleanLegalMoves(listOfLegalMoves);
 	}
 
 }

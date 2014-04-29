@@ -107,7 +107,7 @@ public class Pawn extends Piece {
 			}
 		}
 		
-		return listOfLegalMoves;
+		return super.cleanLegalMoves(listOfLegalMoves);
 	}
 	
 

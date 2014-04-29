@@ -68,7 +68,7 @@ public class Bishop extends Piece {
 			}
 		}
 		
-		return listOfLegalMoves;
+		return super.cleanLegalMoves(listOfLegalMoves);
 	}
 
 }

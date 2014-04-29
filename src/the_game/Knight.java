@@ -36,7 +36,7 @@ public class Knight extends Piece {
 		listOfLegalMoves.add(new int[]{position[0]-1, position[1]-2});
 		listOfLegalMoves.add(new int[]{position[0]+1, position[1]-2});
 		
-		return listOfLegalMoves;
+		return super.cleanLegalMoves(listOfLegalMoves);
 	}
 
 }

@@ -104,19 +104,7 @@ public class Square extends JButton {
 				for(int[] move : legalMoves) {
 					for(Square s : ChessBoard.BOARD_SQUARES) {
 						if(Arrays.equals(s.getPosition(), move)) {
-							
-							// IMPORTANT CHECK
-							// Checks to make sure that you are not removing your own piece
-							// NOTE: There has to be a cleaner way to write this...
-							if(s.hasPiece()) {
-								boolean notCapturingYourOwnPiece = !((s.getPiece()).getTeamColor()).equals(ChessBoard.getTurn());
-								if(notCapturingYourOwnPiece) {
-									s.setTempBackgroundColor(Color.ORANGE);
-								}
-							} else {
-								s.setTempBackgroundColor(Color.ORANGE);
-							}
-							
+							s.setTempBackgroundColor(Color.ORANGE);
 						}
 					}
 				}

@@ -68,7 +68,7 @@ public class Rook extends Piece {
 			}
 		}
 		
-		return listOfLegalMoves;
+		return super.cleanLegalMoves(listOfLegalMoves);
 	}
 
 }

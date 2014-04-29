@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static the_game.TeamColor.*;
 
@@ -23,6 +24,9 @@ public abstract class Piece extends ImageIcon {
 	
 	private boolean focused = false;
 	
+	private int[] storedPosition;
+	private ArrayList<int[]> possibleMoves;
+	
 	public Piece(TeamColor tc, PieceType p) throws IOException {
 		
 		// Store the PieceType
@@ -30,6 +34,9 @@ public abstract class Piece extends ImageIcon {
 		
 		// Store the TeamColor
 		storedPieceColor = tc;
+		
+		// Store the position
+		storedPosition = getParent().getPosition();
 		
 		String pieceTypeName = "";
 		
@@ -99,5 +106,27 @@ public abstract class Piece extends ImageIcon {
 	// legal moves.  In Square.java, I still test to make sure that the
 	// write person is moving and that you are not capturing your own pieces.
 	public abstract ArrayList<int[]> getLegalMoves(int[] position);
+	
+	
+	// Bad name for this method... but basically what it does is
+	// "cleans" up the ArrayList of legal moves by making sure that
+	// you aren't capturing your own pieces
+	public ArrayList<int[]> cleanLegalMoves(ArrayList<int[]> legalMoves) {
+		// Unsafe cast or something
+		ArrayList<int[]> clone = (ArrayList<int[]>) legalMoves.clone();
+		for(int[] move : legalMoves) {
+			for(Square s : ChessBoard.BOARD_SQUARES) {
+				if(Arrays.equals(s.getPosition(), move)) {
+					if(s.hasPiece()) {
+						boolean capturingYourOwnPiece = ((s.getPiece()).getTeamColor()).equals(ChessBoard.getTurn());
+						if(capturingYourOwnPiece) {
+							clone.remove(move);
+						}
+					}
+				}
+			}
+		}
+		return clone;
+	}
 	
 }
