@@ -30,16 +30,16 @@ public class ChessBoard extends JPanel {
 		    	if (edgeOfBoard) {
 		    		JLabel boardLabel = new JLabel(boardLabels[count], SwingConstants.CENTER);
 		    		count++; // Increments variable that counts through boardLabels[]
-			    	Dimension boardLabelDimension = new Dimension((new Square(Color.WHITE)).getSquareDimension());
+			    	Dimension boardLabelDimension = new Dimension((new Square(Color.WHITE, new int[]{0,0})).getSquareDimension());
 			    	boardLabel.setMinimumSize(boardLabelDimension);
 			    	boardLabel.setPreferredSize(boardLabelDimension);
 			    	boardLabel.setMaximumSize(boardLabelDimension);
 		    		boardPanel.add(boardLabel);
 		    	} else if(shouldPaintSquareWhite) {
-		    		JButton square = new Square(Color.WHITE);
+		    		JButton square = new Square(Color.WHITE, new int[]{col,row});
 		    		boardPanel.add(square);
 		    	} else {
-		    		JButton square = new Square(Color.GRAY);
+		    		JButton square = new Square(Color.GRAY, new int[]{col,row});
 		    		boardPanel.add(square);
 		    	}
 		    }

@@ -17,5 +17,7 @@ public class Pawn extends Piece {
 	public Pawn(TeamColor tc) throws IOException {
 		super(tc, PAWN);
 	}
+	
+	
 
 }

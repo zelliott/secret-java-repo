@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.awt.Graphics;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import static the_game.TeamColor.*;
 
 
@@ -17,6 +19,8 @@ public abstract class Piece extends ImageIcon {
 	
 	private BufferedImage image;
 	private PieceType storedPieceType;
+	
+	private boolean focused = false;
 	
 	public Piece(TeamColor tc, PieceType p) throws IOException {
 		
@@ -71,4 +75,21 @@ public abstract class Piece extends ImageIcon {
 	public PieceType getPieceType() {
 		return storedPieceType;
 	}
+	
+	// Returns true if Piece is focused, false if not
+	public boolean getFocus() {
+		return focused;
+	}
+	
+	// Sets the focus of this piece to a different value
+	public void setFocus(boolean focused) {
+		this.focused = focused;
+	}
+	
+	public ArrayList<int[]> getLegalMoves(int[] position) {
+		ArrayList<int[]> listOfLegalMoves = new ArrayList<int[]>();
+		return listOfLegalMoves;
+	}
+	
+	
 }
