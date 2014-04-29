@@ -80,7 +80,11 @@ public abstract class Piece extends ImageIcon {
 		}
 		
 		// Generate the possible legal moves
-		possibleMoves = cleanLegalMoves(getLegalMoves(storedPosition));
+		try {
+			possibleMoves = cleanLegalMoves(getLegalMoves(storedPosition));
+		} catch(NullPointerException e) {
+			possibleMoves = new ArrayList<int[]>();
+		}
 	}
 	
 	public PieceType getPieceType() {
@@ -99,6 +103,10 @@ public abstract class Piece extends ImageIcon {
 	// Sets the focus of this piece to a different value
 	public void setFocus(boolean focused) {
 		this.focused = focused;
+	}
+	
+	public int[] getPosition() {
+		return storedPosition;
 	}
 	
 	// Sets the position
@@ -127,21 +135,26 @@ public abstract class Piece extends ImageIcon {
 	// "cleans" up the ArrayList of legal moves by making sure that
 	// you aren't capturing your own pieces
 	public ArrayList<int[]> cleanLegalMoves(ArrayList<int[]> legalMoves) {
-		// Unsafe cast or something
-		ArrayList<int[]> clone = (ArrayList<int[]>) legalMoves.clone();
-		for(int[] move : legalMoves) {
-			for(Square s : ChessBoard.BOARD_SQUARES) {
-				if(Arrays.equals(s.getPosition(), move)) {
-					if(s.hasPiece()) {
-						boolean capturingYourOwnPiece = ((s.getPiece()).getTeamColor()).equals(ChessBoard.getTurn());
-						if(capturingYourOwnPiece) {
-							clone.remove(move);
+		try {
+			// Unsafe cast or something
+			ArrayList<int[]> clone = (ArrayList<int[]>) legalMoves.clone();
+			for(int[] move : legalMoves) {
+				for(Square s : ChessBoard.BOARD_SQUARES) {
+					if(Arrays.equals(s.getPosition(), move)) {
+						if(s.hasPiece()) {
+							boolean capturingYourOwnPiece = ((s.getPiece()).getTeamColor()).equals(ChessBoard.getTurn());
+							if(capturingYourOwnPiece) {
+								clone.remove(move);
+							}
 						}
 					}
 				}
 			}
+			return clone;
+		} catch(NullPointerException e) {
+			// Exception caught
+			return null;
 		}
-		return clone;
 	}
 	
 }

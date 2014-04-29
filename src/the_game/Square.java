@@ -108,29 +108,40 @@ public class Square extends JButton {
 						}
 					}
 				}
+				
+				// TESTING TESTING TESTING
+				// TESTING TESTING TESTING
+				String test = "";
+				for(int[] position : getPiece().getPossibleMoves()) {
+					test += position[0] + ", " + position[1] + "; ";
+				}
+				
+				
+				// CLICKING ON A PIECE RETURNS IT POSITION PERFECTLY
+				String test2 = String.valueOf((getPiece().getPosition())[0]) + ", " + 
+						       String.valueOf((getPiece().getPosition())[1]);
+				
+				GameInfoPanel.isCheck.setText(test + "  ////  " + test2);
+				
 			}
 			
 		// If a square is clicked that IS colored...
 		} else {
 			for(Square s : ChessBoard.BOARD_SQUARES) {
 				if(s.hasPiece() && (s.getPiece()).getFocus()) {
+					// Store piece as temporary piece
+					Piece tempPiece = s.getPiece();
+					
 					// Check to make sure that the target square and current
 					// square are not the same
 					if(!this.equals(s)) {
 						movePiece(s);
 						
 						// Updates that piece's possible moves
-						(s.getPiece()).updatePossibleMoves();
+						tempPiece.updatePossibleMoves();
 						
 						// Switch players' turn
 						ChessBoard.switchTurn();
-						
-						// Test input
-						String test = "";
-						for(int[] position : (s.getPiece()).getPossibleMoves()) {
-							test += position[0] + ", " + position[1] + "; ";
-						}
-						GameInfoPanel.isCheck.setText(test);
 					}
 				}
 			}
