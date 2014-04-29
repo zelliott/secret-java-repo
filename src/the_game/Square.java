@@ -2,6 +2,8 @@ package the_game;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -11,7 +13,7 @@ public class Square extends JButton {
 	private static final int MIN_SQUARE_HEIGHT = 70;
 	private static final int MIN_SQUARE_WIDTH = 70;
 	private final Color BACKGROUND_COLOR;
-	private int[] STORED_POSITION = new int[2];
+	private final int[] STORED_POSITION;
 	
 	public Square(Color c, int[] position) {
 		// Set visual stuff
@@ -45,7 +47,7 @@ public class Square extends JButton {
 	public Piece getPiece() {
 		if(hasPiece()) {
 			// Is this okay to cast to Piece?
-			return (Piece) getIcon();
+			return (Piece)getIcon();
 		} else {
 			// There is no piece, throw an error or something
 			return null;
@@ -59,23 +61,32 @@ public class Square extends JButton {
 	
 	public void squareClicked() {
 		// Un-color/focus all other squares/pieces
-		for(Component c : ChessBoard.boardPanel.getComponents()) {
-			if(c instanceof Square) {
-				((Square)c).setBackground(((Square)c).getBackgroundColor());
-				if(((Square)c).hasPiece()) {
-					((Square)c).getPiece().setFocus(false);
-				}
+		for(Square s : ChessBoard.BOARD_SQUARES) {
+			s.setBackground((s).getBackgroundColor());
+			if(s.hasPiece()) {
+				s.getPiece().setFocus(false);
 			}
 		}
-		// Color/focus the clicked square/piece
 		if(hasPiece()) {
+			// Color/focus the clicked square/piece
 			setBackground(Color.ORANGE);
 			getPiece().setFocus(true);
-			getPiece().getLegalMoves(STORED_POSITION);
-			// Get legal moves
-			// Set background of movable squares
+			
+			// Create ArrayList of legalMoves and color them
+			ArrayList<int[]> legalMoves = getPiece().getLegalMoves(STORED_POSITION);
+			for(int[] move : legalMoves) {
+				for(Square s : ChessBoard.BOARD_SQUARES) {
+					if(Arrays.equals(s.getPosition(), move)) {
+						s.setBackground(Color.ORANGE);
+					}
+				}
+			}
 			
 		}
+	}
+	
+	public int[] getPosition() {
+		return STORED_POSITION;
 	}
 	
 	

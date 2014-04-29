@@ -3,12 +3,18 @@ package the_game;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.*;
+
 import static the_game.TeamColor.*;
 
 
 public class ChessBoard extends JPanel {
+	
+	// Not sure if okay that this is public
+	// Use this ArrayList to access the squares in the board
+	public static final ArrayList<Square> BOARD_SQUARES = new ArrayList<Square>();
 	
 	private static final int NUM_ROW = 9;
 	private static final int NUM_COL = 9;
@@ -36,10 +42,12 @@ public class ChessBoard extends JPanel {
 			    	boardLabel.setMaximumSize(boardLabelDimension);
 		    		boardPanel.add(boardLabel);
 		    	} else if(shouldPaintSquareWhite) {
-		    		JButton square = new Square(Color.WHITE, new int[]{col,row});
+		    		Square square = new Square(Color.WHITE, new int[]{col,row});
+		    		BOARD_SQUARES.add(square);
 		    		boardPanel.add(square);
 		    	} else {
-		    		JButton square = new Square(Color.GRAY, new int[]{col,row});
+		    		Square square = new Square(Color.GRAY, new int[]{col,row});
+		    		BOARD_SQUARES.add(square);
 		    		boardPanel.add(square);
 		    	}
 		    }
@@ -49,37 +57,47 @@ public class ChessBoard extends JPanel {
 	
 	public void initialize() throws IOException {
 		int count = 0;
-		for(Component c : boardPanel.getComponents()) {
-			if(c instanceof Square) {
-				if(count==0 || count==7) {
-					((Square)c).setIcon(new Rook(BLACK));
-				} else if(count==1 || count==6) {
-					((Square)c).setIcon(new Knight(BLACK));
-				} else if(count==2 || count==5) {
-					((Square)c).setIcon(new Bishop(BLACK));
-				} else if(count==3) {
-					((Square)c).setIcon(new Queen(BLACK));
-				} else if(count==4) {
-					((Square)c).setIcon(new King(BLACK));
-				} else if(count>=8 && count<=15) {
-					((Square)c).setIcon(new Pawn(BLACK));
-				} else if(count>=48 && count<=55) {
-					((Square)c).setIcon(new Pawn(WHITE));
-				} else if(count==56 || count==63) {
-					((Square)c).setIcon(new Rook(WHITE));
-				} else if(count==57 || count==62) {
-					((Square)c).setIcon(new Knight(WHITE));
-				} else if(count==58 || count==61) {
-					((Square)c).setIcon(new Bishop(WHITE));
-				} else if(count==59) {
-					((Square)c).setIcon(new Queen(WHITE));
-				} else if(count==60) {
-					((Square)c).setIcon(new King(WHITE));
-				} else {
-					// Don't add a piece
-				}
-				count++;
+		for(Square s : BOARD_SQUARES) {
+			if(count==0 || count==7) {
+				s.setIcon(new Rook(BLACK));
+			} else if(count==1 || count==6) {
+				s.setIcon(new Knight(BLACK));
+			} else if(count==2 || count==5) {
+				s.setIcon(new Bishop(BLACK));
+			} else if(count==3) {
+				s.setIcon(new Queen(BLACK));
+			} else if(count==4) {
+				s.setIcon(new King(BLACK));
+			} else if(count>=8 && count<=15) {
+				s.setIcon(new Pawn(BLACK));
+			} else if(count>=48 && count<=55) {
+				s.setIcon(new Pawn(WHITE));
+			} else if(count==56 || count==63) {
+				s.setIcon(new Rook(WHITE));
+			} else if(count==57 || count==62) {
+				s.setIcon(new Knight(WHITE));
+			} else if(count==58 || count==61) {
+				s.setIcon(new Bishop(WHITE));
+			} else if(count==59) {
+				s.setIcon(new Queen(WHITE));
+			} else if(count==60) {
+				s.setIcon(new King(WHITE));
+			} else {
+				// Don't add a piece
+			}
+			count++;
+		}
+	}
+	
+	// Given the position of a square, return it
+	// I hate returning null
+	// Also not currently using
+	public Square getSquare(int[] position) {
+		for(Square s : BOARD_SQUARES) {
+			if((s.getPosition()).equals(position)) {
+				return s;
 			}
 		}
+		return null;
 	}
 }

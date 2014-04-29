@@ -19,6 +19,7 @@ public abstract class Piece extends ImageIcon {
 	
 	private BufferedImage image;
 	private PieceType storedPieceType;
+	private TeamColor storedPieceColor;
 	
 	private boolean focused = false;
 	
@@ -26,6 +27,9 @@ public abstract class Piece extends ImageIcon {
 		
 		// Store the PieceType
 		storedPieceType = p;
+		
+		// Store the TeamColor
+		storedPieceColor = tc;
 		
 		String pieceTypeName = "";
 		
@@ -76,6 +80,10 @@ public abstract class Piece extends ImageIcon {
 		return storedPieceType;
 	}
 	
+	public TeamColor getTeamColor() {
+		return storedPieceColor;
+	}
+	
 	// Returns true if Piece is focused, false if not
 	public boolean getFocus() {
 		return focused;
@@ -86,10 +94,8 @@ public abstract class Piece extends ImageIcon {
 		this.focused = focused;
 	}
 	
-	public ArrayList<int[]> getLegalMoves(int[] position) {
-		ArrayList<int[]> listOfLegalMoves = new ArrayList<int[]>();
-		return listOfLegalMoves;
-	}
+	// Returns an ArrayList of legal positions the piece can move in
+	public abstract ArrayList<int[]> getLegalMoves(int[] position);
 	
 	
 }

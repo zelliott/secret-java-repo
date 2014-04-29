@@ -3,11 +3,15 @@ package the_game;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
 import java.awt.Graphics;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import static the_game.PieceType.*;
 
 public class Queen extends Piece {
@@ -16,6 +20,12 @@ public class Queen extends Piece {
 	
 	public Queen(TeamColor tc) throws IOException {
 		super(tc, QUEEN);
+	}
+
+	@Override
+	public ArrayList<int[]> getLegalMoves(int[] position) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
