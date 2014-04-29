@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.*;
 
@@ -95,12 +96,13 @@ public class ChessBoard extends JPanel {
 	// Given the position of a square, return it
 	// I hate returning null
 	// Also not currently using
-	public Square getSquare(int[] position) {
+	public static Square getSquare(int[] position) {
 		for(Square s : BOARD_SQUARES) {
-			if((s.getPosition()).equals(position)) {
+			if(Arrays.equals(s.getPosition(), position)) {
 				return s;
 			}
 		}
+		// What is this return... :\
 		return null;
 	}
 	

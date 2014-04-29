@@ -89,7 +89,7 @@ public class Square extends JButton {
 			// Tests if the square has a piece, and if so,
 			// that that piece is of the same color as the player's
 			// whose turn it is
-			boolean correctTurn = (getPiece().getTeamColor()).equals(ChessBoard.getTurn());
+			boolean correctTurn = hasPiece() && (getPiece().getTeamColor()).equals(ChessBoard.getTurn());
 			if(hasPiece() && correctTurn) {
 				// Color/focus the clicked square/piece
 				setTempBackgroundColor(Color.ORANGE);
@@ -100,6 +100,7 @@ public class Square extends JButton {
 				for(int[] move : legalMoves) {
 					for(Square s : ChessBoard.BOARD_SQUARES) {
 						if(Arrays.equals(s.getPosition(), move)) {
+							// Remove move if you would capture your own piece
 							if(s.hasPiece()) {
 								boolean notCapturingYourOwnPiece = !((s.getPiece()).getTeamColor()).equals(ChessBoard.getTurn());
 								if(notCapturingYourOwnPiece) {

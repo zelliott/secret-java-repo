@@ -28,16 +28,40 @@ public class Bishop extends Piece {
 		
 		// Legal moves for bishop
 		for(int i=1; i<8; i++) {
-			listOfLegalMoves.add(new int[]{position[0]-i, position[1]-i});
+			int x = position[0]-i;
+			int y = position[1]-i;
+			if((ChessBoard.getSquare(new int[]{x,y})).hasPiece()) {
+				break;
+			} else {
+				listOfLegalMoves.add(new int[]{x,y});
+			}
 		}
 		for(int i=1; i<8; i++) {
-			listOfLegalMoves.add(new int[]{position[0]+i, position[1]+i});
+			int x = position[0]+i;
+			int y = position[1]+i;
+			if((ChessBoard.getSquare(new int[]{x,y})).hasPiece()) {
+				break;
+			} else {
+				listOfLegalMoves.add(new int[]{x,y});
+			}
 		}
 		for(int i=1; i<8; i++) {
-			listOfLegalMoves.add(new int[]{position[0]+i, position[1]-i});
+			int x = position[0]+i;
+			int y = position[1]-i;
+			if((ChessBoard.getSquare(new int[]{x,y})).hasPiece()) {
+				break;
+			} else {
+				listOfLegalMoves.add(new int[]{x,y});
+			}
 		}
 		for(int i=1; i<8; i++) {
-			listOfLegalMoves.add(new int[]{position[0]-i, position[1]+i});
+			int x = position[0]-i;
+			int y = position[1]+i;
+			if((ChessBoard.getSquare(new int[]{x,y})).hasPiece()) {
+				break;
+			} else {
+				listOfLegalMoves.add(new int[]{x,y});
+			}
 		}
 		
 		return listOfLegalMoves;

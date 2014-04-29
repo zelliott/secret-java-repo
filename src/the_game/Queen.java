@@ -23,7 +23,7 @@ public class Queen extends Piece {
 	}
 
 	@Override
-	public ArrayList<int[]> getLegalMoves(int[] position) {
+	public ArrayList<int[]> getLegalMoves(int[]position) {
 		ArrayList<int[]> listOfLegalMoves = new ArrayList<int[]>();
 		
 		// Legal moves for queen
