@@ -93,20 +93,6 @@ public class Pawn extends Piece {
 			}
 		}
 		
-		// Remove moves if they are illegal
-		for(int[] move : listOfLegalMoves) {
-			for(Square s : ChessBoard.BOARD_SQUARES) {
-				if(Arrays.equals(s.getPosition(), move)) {
-					if(s.hasPiece()) {
-						boolean yourPiece = ((s.getPiece()).getTeamColor()).equals(ChessBoard.getTurn());
-						if(!yourPiece) {
-							// Or add functionality for diagonal capturing here!
-						}
-					}
-				}
-			}
-		}
-		
 		return super.cleanLegalMoves(listOfLegalMoves);
 	}
 	

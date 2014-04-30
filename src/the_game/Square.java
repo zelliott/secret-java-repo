@@ -101,27 +101,34 @@ public class Square extends JButton {
 				
 				// Create ArrayList of legalMoves and color them
 				ArrayList<int[]> legalMoves = getPiece().getLegalMoves(STORED_POSITION);
+				String printPossibleMoves;
+				StringBuilder sb = new StringBuilder();
 				for(int[] move : legalMoves) {
 					for(Square s : ChessBoard.BOARD_SQUARES) {
 						if(Arrays.equals(s.getPosition(), move)) {
 							s.setTempBackgroundColor(Color.ORANGE);
+							
+							// TESTING 
+							// STORING POSSIBLE MOVES AS STRINGS
+							
+							String x = String.valueOf(move[0]);
+							String y = String.valueOf(move[1]);
+							
+							sb.append(x);
+							sb.append(", ");
+							sb.append(y);
+							sb.append("; ");
 						}
 					}
 				}
-				
-				// TESTING TESTING TESTING
-				// TESTING TESTING TESTING
-				String test = "";
-				for(int[] position : getPiece().getPossibleMoves()) {
-					test += position[0] + ", " + position[1] + "; ";
-				}
+				printPossibleMoves = sb.toString();
 				
 				
 				// CLICKING ON A PIECE RETURNS IT POSITION PERFECTLY
-				String test2 = String.valueOf((getPiece().getPosition())[0]) + ", " + 
+				String piecePosition = String.valueOf((getPiece().getPosition())[0]) + ", " + 
 						       String.valueOf((getPiece().getPosition())[1]);
 				
-				GameInfoPanel.isCheck.setText(test + "  ////  " + test2);
+				GameInfoPanel.info.setText(printPossibleMoves + "  |||   " + piecePosition);
 				
 			}
 			
@@ -129,19 +136,33 @@ public class Square extends JButton {
 		} else {
 			for(Square s : ChessBoard.BOARD_SQUARES) {
 				if(s.hasPiece() && (s.getPiece()).getFocus()) {
-					// Store piece as temporary piece
-					Piece tempPiece = s.getPiece();
 					
 					// Check to make sure that the target square and current
 					// square are not the same
 					if(!this.equals(s)) {
 						movePiece(s);
 						
-						// Updates that piece's possible moves
-						tempPiece.updatePossibleMoves();
+						
+						// Updates every piece's position and possible
+						// moves
+						for(Square s1 : ChessBoard.BOARD_SQUARES) {
+							if(s1.hasPiece()) {
+								(s1.getPiece()).setPosition(s1.getPosition());
+								(s1.getPiece()).updatePossibleMoves();
+							}
+						}
+						
 						
 						// Switch players' turn
 						ChessBoard.switchTurn();
+						
+						// Test if either is in check
+						if(ChessBoard.testCheck()) {
+							
+						} else {
+							
+						}
+						
 					}
 				}
 			}

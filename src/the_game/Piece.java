@@ -80,11 +80,13 @@ public abstract class Piece extends ImageIcon {
 		}
 		
 		// Generate the possible legal moves
+		ArrayList<int[]> tempPossibleMoves;
 		try {
-			possibleMoves = cleanLegalMoves(getLegalMoves(storedPosition));
+			tempPossibleMoves = getLegalMoves(storedPosition);
 		} catch(NullPointerException e) {
-			possibleMoves = new ArrayList<int[]>();
+			tempPossibleMoves = new ArrayList<int[]>();
 		}
+		possibleMoves = cleanLegalMoves(tempPossibleMoves);
 	}
 	
 	public PieceType getPieceType() {

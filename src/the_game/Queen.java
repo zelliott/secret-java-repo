@@ -32,6 +32,9 @@ public class Queen extends Piece {
 			int y = position[1]-i;
 			int[] tempPosition = new int[]{x,y};
 			if(ChessBoard.hasSquare(tempPosition) && (ChessBoard.getSquare(tempPosition)).hasPiece()) {
+				if(!((ChessBoard.getSquare(tempPosition).getPiece()).getPieceType().equals(ChessBoard.getTurn()))) {
+					listOfLegalMoves.add(tempPosition);
+				}
 				break;
 			} else {
 				listOfLegalMoves.add(tempPosition);
@@ -42,6 +45,9 @@ public class Queen extends Piece {
 			int y = position[1]+i;
 			int[] tempPosition = new int[]{x,y};
 			if(ChessBoard.hasSquare(tempPosition) && (ChessBoard.getSquare(tempPosition)).hasPiece()) {
+				if(!((ChessBoard.getSquare(tempPosition).getPiece()).getPieceType().equals(ChessBoard.getTurn()))) {
+					listOfLegalMoves.add(tempPosition);
+				}
 				break;
 			} else {
 				listOfLegalMoves.add(tempPosition);
@@ -52,6 +58,9 @@ public class Queen extends Piece {
 			int y = position[1]+i;
 			int[] tempPosition = new int[]{x,y};
 			if(ChessBoard.hasSquare(tempPosition) && (ChessBoard.getSquare(tempPosition)).hasPiece()) {
+				if(!((ChessBoard.getSquare(tempPosition).getPiece()).getPieceType().equals(ChessBoard.getTurn()))) {
+					listOfLegalMoves.add(tempPosition);
+				}
 				break;
 			} else {
 				listOfLegalMoves.add(tempPosition);
@@ -62,6 +71,9 @@ public class Queen extends Piece {
 			int y = position[1]-i;
 			int[] tempPosition = new int[]{x,y};
 			if(ChessBoard.hasSquare(tempPosition) && (ChessBoard.getSquare(tempPosition)).hasPiece()) {
+				if(!((ChessBoard.getSquare(tempPosition).getPiece()).getPieceType().equals(ChessBoard.getTurn()))) {
+					listOfLegalMoves.add(tempPosition);
+				}
 				break;
 			} else {
 				listOfLegalMoves.add(tempPosition);
@@ -72,6 +84,9 @@ public class Queen extends Piece {
 			int y = position[1]-i;
 			int[] tempPosition = new int[]{x,y};
 			if(ChessBoard.hasSquare(tempPosition) && (ChessBoard.getSquare(tempPosition)).hasPiece()) {
+				if(!((ChessBoard.getSquare(tempPosition).getPiece()).getPieceType().equals(ChessBoard.getTurn()))) {
+					listOfLegalMoves.add(tempPosition);
+				}
 				break;
 			} else {
 				listOfLegalMoves.add(tempPosition);
@@ -82,6 +97,9 @@ public class Queen extends Piece {
 			int y = position[1]+i;
 			int[] tempPosition = new int[]{x,y};
 			if(ChessBoard.hasSquare(tempPosition) && (ChessBoard.getSquare(tempPosition)).hasPiece()) {
+				if(!((ChessBoard.getSquare(tempPosition).getPiece()).getPieceType().equals(ChessBoard.getTurn()))) {
+					listOfLegalMoves.add(tempPosition);
+				}
 				break;
 			} else {
 				listOfLegalMoves.add(tempPosition);
@@ -92,6 +110,9 @@ public class Queen extends Piece {
 			int y = position[1];
 			int[] tempPosition = new int[]{x,y};
 			if(ChessBoard.hasSquare(tempPosition) && (ChessBoard.getSquare(tempPosition)).hasPiece()) {
+				if(!((ChessBoard.getSquare(tempPosition).getPiece()).getPieceType().equals(ChessBoard.getTurn()))) {
+					listOfLegalMoves.add(tempPosition);
+				}
 				break;
 			} else {
 				listOfLegalMoves.add(tempPosition);
@@ -102,6 +123,9 @@ public class Queen extends Piece {
 			int y = position[1];
 			int[] tempPosition = new int[]{x,y};
 			if(ChessBoard.hasSquare(tempPosition) && (ChessBoard.getSquare(tempPosition)).hasPiece()) {
+				if(!((ChessBoard.getSquare(tempPosition).getPiece()).getPieceType().equals(ChessBoard.getTurn()))) {
+					listOfLegalMoves.add(tempPosition);
+				}
 				break;
 			} else {
 				listOfLegalMoves.add(tempPosition);
