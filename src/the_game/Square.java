@@ -17,8 +17,9 @@ public class Square extends JButton {
 	private final int[] STORED_POSITION;
 	
 	// Whether or not a team protects this square
-	private boolean protectedByWhite;
-	private boolean protectedByBlack;
+	// Easier to work with when public
+	public boolean protectedByWhite;
+	public boolean protectedByBlack;
 	
 	public Square(Color c, int[] position) {
 		// Set visual stuff
@@ -149,9 +150,11 @@ public class Square extends JButton {
 					if(!this.equals(s)) {
 						movePiece(s);
 						
+						ChessBoard.setProtectedSquares();
+						
 						// Test for check
 						// 1) Find out what color the moved piece is
-						/*if((ChessBoard.getTurn()).equals(TeamColor.WHITE)) {
+						if((ChessBoard.getTurn()) == TeamColor.WHITE) {
 							if(ChessBoard.testCheckWhite()) {
 								// Undo move
 								s.movePiece(ChessBoard.getSquare(STORED_POSITION));
@@ -184,20 +187,15 @@ public class Square extends JButton {
 								// Switch players' turn
 								ChessBoard.switchTurn();
 							}
-						}*/
-						
-						
-						// Switch players' turn
-						ChessBoard.switchTurn();
-						
+						}
 					}
 				}
 			}
 			
 			// Clear all color and focus
 			ChessBoard.clearFocus();
-			ChessBoard.colorProtectedSquares(TeamColor.WHITE);
-			ChessBoard.colorProtectedSquares(TeamColor.BLACK);
+			
+			ChessBoard.setProtectedSquares();
 		}
 	}
 	

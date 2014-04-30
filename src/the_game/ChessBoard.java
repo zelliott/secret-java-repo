@@ -24,9 +24,6 @@ public class ChessBoard extends JPanel {
 	private static final String[] boardLabels = {" ", "a", "b", "c", "d", "e", "f", "g", "h", 
 												 "8", "7", "6", "5", "4", "3", "2", "1"};
 	
-	private static boolean inCheckBlack = false;
-	private static boolean inCheckWhite = false;
-	
 	// Controls the turns of the game
 	private static TeamColor turn = WHITE;
 	
@@ -120,29 +117,43 @@ public class ChessBoard extends JPanel {
 		}
 	}
 	
-	public static void colorProtectedSquares(TeamColor tc) {
-		ArrayList<int[]> coloredPositions = new ArrayList<int[]>();
-		if(tc.equals(TeamColor.WHITE)) {
-			for(Square s : BOARD_SQUARES) {
-				if(s.hasPiece() && s.getPiece().getTeamColor().equals(TeamColor.WHITE)) {
-					Piece p = s.getPiece();
-					for(int[] position : p.getLegalMoves(p.getPosition())) {
-						if(hasSquare(position)) {
-							getSquare(position).setBackground(Color.GREEN);
-						}
+	public static void setProtectedSquares() {
+		// Reset
+		for(Square s : BOARD_SQUARES) {
+			s.protectedByWhite = false;
+			s.protectedByBlack = false;
+		}
+		
+		// Now set protections
+		for(Square s : BOARD_SQUARES) {
+			if(s.hasPiece() && s.getPiece().getTeamColor().equals(TeamColor.WHITE)) {
+				Piece p = s.getPiece();
+				for(int[] position : p.getLegalMoves(p.getPosition())) {
+					if(hasSquare(position)) {
+						getSquare(position).protectedByWhite = true;
 					}
 				}
 			}
-		} else {
-			for(Square s : BOARD_SQUARES) {
-				if(s.hasPiece() && s.getPiece().getTeamColor().equals(TeamColor.BLACK)) {
-					Piece p = s.getPiece();
-					for(int[] position : p.getLegalMoves(p.getPosition())) {
-						if(hasSquare(position)) {
-							getSquare(position).setBackground(Color.GREEN);
-						}
+		}
+		for(Square s : BOARD_SQUARES) {
+			if(s.hasPiece() && s.getPiece().getTeamColor().equals(TeamColor.BLACK)) {
+				Piece p = s.getPiece();
+				for(int[] position : p.getLegalMoves(p.getPosition())) {
+					if(hasSquare(position)) {
+						getSquare(position).protectedByBlack = true;
 					}
 				}
+			}
+		}
+		
+		// Now set colors
+		for(Square s : BOARD_SQUARES) {
+			if(s.protectedByBlack && s.protectedByWhite) {
+				s.setBackground(Color.RED);
+			} else if(s.protectedByWhite) {
+				s.setBackground(Color.GREEN);
+			} else if(s.protectedByBlack) {
+				s.setBackground(Color.BLUE);
 			}
 		}
 	}
@@ -215,23 +226,13 @@ public class ChessBoard extends JPanel {
 			}
 		}
 		
-		// For each square, if it has a piece, get possible moves
-		outerloop:
-		for(Square s : BOARD_SQUARES) {
-			Piece p = s.getPiece();
-			if(s.hasPiece() && !(p.getPieceType()).equals(PieceType.KING) && (p.getTeamColor()).equals(TeamColor.BLACK)) {
-				for(int[] potentialCheck : p.cleanLegalMoves(p.getLegalMoves(p.getPosition()))) {
-					if(Arrays.equals(potentialCheck, whiteKingPosition)) {
-						inCheckWhite = true;
-						GameInfoPanel.inCheckWhite.setText("White in check" + potentialCheck[0] + ", " + potentialCheck[1]);
-						break outerloop;
-					}
-				}
-				GameInfoPanel.inCheckWhite.setText("White not in check");
-				inCheckWhite = false;
-			}
+		if(hasSquare(whiteKingPosition) && getSquare(whiteKingPosition).protectedByBlack) {
+			GameInfoPanel.inCheckWhite.setText("White is in check");
+			return true;
+		} else {
+			GameInfoPanel.inCheckWhite.setText("White is not in check");
+			return false;
 		}
-		return inCheckWhite;
 	}
 	
 	public static boolean testCheckBlack() {
@@ -247,22 +248,12 @@ public class ChessBoard extends JPanel {
 			}
 		}
 		
-		// For each square, if it has a piece, get possible moves
-		outerloop:
-		for(Square s : BOARD_SQUARES) {
-			Piece p = s.getPiece();
-			if(s.hasPiece() && !(p.getPieceType()).equals(PieceType.KING) && (p.getTeamColor()).equals(TeamColor.WHITE)) {
-				for(int[] potentialCheck : p.cleanLegalMoves(p.getLegalMoves(p.getPosition()))) {
-					if(Arrays.equals(potentialCheck, blackKingPosition)) {
-						inCheckBlack = true;
-						GameInfoPanel.inCheckBlack.setText("Black in check" + potentialCheck[0] + ", " + potentialCheck[1]);
-						break outerloop;
-					}
-				}
-				GameInfoPanel.inCheckBlack.setText("Black not in check");
-				inCheckBlack = false;
-			}
+		if(hasSquare(blackKingPosition) && getSquare(blackKingPosition).protectedByWhite) {
+			GameInfoPanel.inCheckBlack.setText("Black is in check");
+			return true;
+		} else {
+			GameInfoPanel.inCheckBlack.setText("Black is not in check");
+			return false;
 		}
-		return inCheckBlack;
 	}
 }
