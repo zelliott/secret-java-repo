@@ -24,7 +24,8 @@ public class ChessBoard extends JPanel {
 	private static final String[] boardLabels = {" ", "a", "b", "c", "d", "e", "f", "g", "h", 
 												 "8", "7", "6", "5", "4", "3", "2", "1"};
 	
-	private static boolean inCheck = false;
+	private static boolean inCheckBlack = false;
+	private static boolean inCheckWhite = false;
 	
 	// Controls the turns of the game
 	private static TeamColor turn = WHITE;
@@ -119,6 +120,33 @@ public class ChessBoard extends JPanel {
 		}
 	}
 	
+	public static void colorProtectedSquares(TeamColor tc) {
+		ArrayList<int[]> coloredPositions = new ArrayList<int[]>();
+		if(tc.equals(TeamColor.WHITE)) {
+			for(Square s : BOARD_SQUARES) {
+				if(s.hasPiece() && s.getPiece().getTeamColor().equals(TeamColor.WHITE)) {
+					Piece p = s.getPiece();
+					for(int[] position : p.getLegalMoves(p.getPosition())) {
+						if(hasSquare(position)) {
+							getSquare(position).setBackground(Color.GREEN);
+						}
+					}
+				}
+			}
+		} else {
+			for(Square s : BOARD_SQUARES) {
+				if(s.hasPiece() && s.getPiece().getTeamColor().equals(TeamColor.BLACK)) {
+					Piece p = s.getPiece();
+					for(int[] position : p.getLegalMoves(p.getPosition())) {
+						if(hasSquare(position)) {
+							getSquare(position).setBackground(Color.GREEN);
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	public static boolean hasSquare(int[] position) {
 		for(Square s: BOARD_SQUARES) {
 			if(Arrays.equals(s.getPosition(), position)) {
@@ -149,6 +177,17 @@ public class ChessBoard extends JPanel {
 		}
 	}
 	
+	// Updates every piece's position and possible
+	// moves
+	public static void updatePositions() {
+		for(Square s1 : ChessBoard.BOARD_SQUARES) {
+			if(s1.hasPiece()) {
+				(s1.getPiece()).setPosition(s1.getPosition());
+				(s1.getPiece()).updatePossibleMoves();
+			}
+		}
+	}
+	
 	public static TeamColor getTurn() {
 		return turn;
 	}
@@ -163,18 +202,15 @@ public class ChessBoard extends JPanel {
 		}
 	}
 	
-	public static boolean testCheck() {
+	public static boolean testCheckWhite() {
 		
 		// Get king position
 		int[] whiteKingPosition = new int[]{};
-		int[] blackKingPosition = new int[]{};
 		for(Square s : BOARD_SQUARES) {
 			Piece p = s.getPiece();
 			if(s.hasPiece() && (p.getPieceType()).equals(PieceType.KING)) {
 				if((p.getTeamColor()).equals(TeamColor.WHITE)) {
 					whiteKingPosition = p.getPosition();
-				} else {
-					blackKingPosition = p.getPosition();
 				}
 			}
 		}
@@ -184,25 +220,49 @@ public class ChessBoard extends JPanel {
 		for(Square s : BOARD_SQUARES) {
 			Piece p = s.getPiece();
 			if(s.hasPiece() && !(p.getPieceType()).equals(PieceType.KING) && (p.getTeamColor()).equals(TeamColor.BLACK)) {
-				for(int[] potentialCheck : p.getPossibleMoves()) {
+				for(int[] potentialCheck : p.cleanLegalMoves(p.getLegalMoves(p.getPosition()))) {
 					if(Arrays.equals(potentialCheck, whiteKingPosition)) {
-						inCheck = true;
-						GameInfoPanel.inCheck.setText("In check");
+						inCheckWhite = true;
+						GameInfoPanel.inCheckWhite.setText("White in check" + potentialCheck[0] + ", " + potentialCheck[1]);
 						break outerloop;
 					}
 				}
-			} else if(s.hasPiece() && !(p.getPieceType()).equals(PieceType.KING) && (p.getTeamColor()).equals(TeamColor.WHITE)) {
-				for(int[] potentialCheck : p.getPossibleMoves()) {
-					if(Arrays.equals(potentialCheck, blackKingPosition)) {
-						inCheck = true;
-						GameInfoPanel.inCheck.setText("In check");
-						break outerloop;
-					}
+				GameInfoPanel.inCheckWhite.setText("White not in check");
+				inCheckWhite = false;
+			}
+		}
+		return inCheckWhite;
+	}
+	
+	public static boolean testCheckBlack() {
+		
+		// Get king position
+		int[] blackKingPosition = new int[]{};
+		for(Square s : BOARD_SQUARES) {
+			Piece p = s.getPiece();
+			if(s.hasPiece() && (p.getPieceType()).equals(PieceType.KING)) {
+				if((p.getTeamColor()).equals(TeamColor.BLACK)) {
+					blackKingPosition = p.getPosition();
 				}
 			}
-			GameInfoPanel.inCheck.setText("Not in check");
-			inCheck = false;
 		}
-		return inCheck;
+		
+		// For each square, if it has a piece, get possible moves
+		outerloop:
+		for(Square s : BOARD_SQUARES) {
+			Piece p = s.getPiece();
+			if(s.hasPiece() && !(p.getPieceType()).equals(PieceType.KING) && (p.getTeamColor()).equals(TeamColor.WHITE)) {
+				for(int[] potentialCheck : p.cleanLegalMoves(p.getLegalMoves(p.getPosition()))) {
+					if(Arrays.equals(potentialCheck, blackKingPosition)) {
+						inCheckBlack = true;
+						GameInfoPanel.inCheckBlack.setText("Black in check" + potentialCheck[0] + ", " + potentialCheck[1]);
+						break outerloop;
+					}
+				}
+				GameInfoPanel.inCheckBlack.setText("Black not in check");
+				inCheckBlack = false;
+			}
+		}
+		return inCheckBlack;
 	}
 }

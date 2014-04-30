@@ -16,6 +16,10 @@ public class Square extends JButton {
 	private Color tempBackgroundColor;
 	private final int[] STORED_POSITION;
 	
+	// Whether or not a team protects this square
+	private boolean protectedByWhite;
+	private boolean protectedByBlack;
+	
 	public Square(Color c, int[] position) {
 		// Set visual stuff
 		setPreferredSize(new Dimension(MIN_SQUARE_WIDTH, MIN_SQUARE_HEIGHT));
@@ -68,8 +72,11 @@ public class Square extends JButton {
 	
 	// Moves the piece to this square from the target Square s
 	public void movePiece(Square s) {
-		setIcon(s.getIcon());
+		setIcon(s.getPiece());
 		s.removePiece();
+		
+		// Update the positions/potential positions of all pieces
+		ChessBoard.updatePositions();
 	}
 	
 	
@@ -142,26 +149,46 @@ public class Square extends JButton {
 					if(!this.equals(s)) {
 						movePiece(s);
 						
-						
-						// Updates every piece's position and possible
-						// moves
-						for(Square s1 : ChessBoard.BOARD_SQUARES) {
-							if(s1.hasPiece()) {
-								(s1.getPiece()).setPosition(s1.getPosition());
-								(s1.getPiece()).updatePossibleMoves();
+						// Test for check
+						// 1) Find out what color the moved piece is
+						/*if((ChessBoard.getTurn()).equals(TeamColor.WHITE)) {
+							if(ChessBoard.testCheckWhite()) {
+								// Undo move
+								s.movePiece(ChessBoard.getSquare(STORED_POSITION));
+								GameInfoPanel.gameStatus.setText("Illegal move, white in check");
+							} else if(ChessBoard.testCheckBlack()) {
+								// Move is okay, black is now in check
+								GameInfoPanel.gameStatus.setText("Okay move, black in check");
+								// Switch players' turn
+								ChessBoard.switchTurn();
+							} else {
+								// Move is okay, nothing happened
+								GameInfoPanel.gameStatus.setText("No one in check");
+								// Switch players' turn
+								ChessBoard.switchTurn();
 							}
-						}
+							
+						} else {
+							if(ChessBoard.testCheckBlack()) {
+								// Undo move
+								s.movePiece(ChessBoard.getSquare(STORED_POSITION));
+								GameInfoPanel.gameStatus.setText("Illegal move, black in check");
+							} else if(ChessBoard.testCheckWhite()) {
+								// Move is okay, white is now in check
+								GameInfoPanel.gameStatus.setText("Okay move, white in check");
+								// Switch players' turn
+								ChessBoard.switchTurn();
+							} else {
+								// Move is okay, nothing happened
+								GameInfoPanel.gameStatus.setText("No one in check");
+								// Switch players' turn
+								ChessBoard.switchTurn();
+							}
+						}*/
 						
 						
 						// Switch players' turn
 						ChessBoard.switchTurn();
-						
-						// Test if either is in check
-						if(ChessBoard.testCheck()) {
-							
-						} else {
-							
-						}
 						
 					}
 				}
@@ -169,6 +196,8 @@ public class Square extends JButton {
 			
 			// Clear all color and focus
 			ChessBoard.clearFocus();
+			ChessBoard.colorProtectedSquares(TeamColor.WHITE);
+			ChessBoard.colorProtectedSquares(TeamColor.BLACK);
 		}
 	}
 	
