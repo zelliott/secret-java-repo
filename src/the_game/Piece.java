@@ -144,7 +144,7 @@ public abstract class Piece extends ImageIcon {
 				for(Square s : ChessBoard.BOARD_SQUARES) {
 					if(Arrays.equals(s.getPosition(), move)) {
 						if(s.hasPiece()) {
-							boolean capturingYourOwnPiece = ((s.getPiece()).getTeamColor()).equals(ChessBoard.getTurn());
+							boolean capturingYourOwnPiece = ((s.getPiece()).getTeamColor()).equals(getTeamColor());
 							if(capturingYourOwnPiece) {
 								clone.remove(move);
 							}

@@ -115,6 +115,8 @@ public class ChessBoard extends JPanel {
 			}
 			count++;
 		}
+		updatePositions();
+		setProtectedSquares();
 	}
 	
 	public static void setProtectedSquares() {
@@ -128,7 +130,7 @@ public class ChessBoard extends JPanel {
 		for(Square s : BOARD_SQUARES) {
 			if(s.hasPiece() && s.getPiece().getTeamColor().equals(TeamColor.WHITE)) {
 				Piece p = s.getPiece();
-				for(int[] position : p.getLegalMoves(p.getPosition())) {
+				for(int[] position : p.getPossibleMoves()) {
 					if(hasSquare(position)) {
 						getSquare(position).protectedByWhite = true;
 					}
@@ -138,7 +140,7 @@ public class ChessBoard extends JPanel {
 		for(Square s : BOARD_SQUARES) {
 			if(s.hasPiece() && s.getPiece().getTeamColor().equals(TeamColor.BLACK)) {
 				Piece p = s.getPiece();
-				for(int[] position : p.getLegalMoves(p.getPosition())) {
+				for(int[] position : p.getPossibleMoves()) {
 					if(hasSquare(position)) {
 						getSquare(position).protectedByBlack = true;
 					}
@@ -154,6 +156,8 @@ public class ChessBoard extends JPanel {
 				s.setBackground(Color.GREEN);
 			} else if(s.protectedByBlack) {
 				s.setBackground(Color.BLUE);
+			} else {
+				s.setBackground(Color.PINK);
 			}
 		}*/
 	}
@@ -214,7 +218,6 @@ public class ChessBoard extends JPanel {
 	}
 	
 	public static boolean testCheckWhite() {
-		
 		// Get king position
 		int[] whiteKingPosition = new int[]{};
 		for(Square s : BOARD_SQUARES) {
@@ -226,7 +229,7 @@ public class ChessBoard extends JPanel {
 			}
 		}
 		
-		if(hasSquare(whiteKingPosition) && getSquare(whiteKingPosition).protectedByBlack) {
+		if(getSquare(whiteKingPosition).protectedByBlack) {
 			GameInfoPanel.inCheckWhite.setText("White is in check");
 			return true;
 		} else {
@@ -236,7 +239,6 @@ public class ChessBoard extends JPanel {
 	}
 	
 	public static boolean testCheckBlack() {
-		
 		// Get king position
 		int[] blackKingPosition = new int[]{};
 		for(Square s : BOARD_SQUARES) {
@@ -248,13 +250,42 @@ public class ChessBoard extends JPanel {
 			}
 		}
 		
-		if(hasSquare(blackKingPosition) && getSquare(blackKingPosition).protectedByWhite) {
+		if(getSquare(blackKingPosition).protectedByWhite) {
 			GameInfoPanel.inCheckBlack.setText("Black is in check");
 			return true;
 		} else {
 			GameInfoPanel.inCheckBlack.setText("Black is not in check");
 			return false;
 		}
+	}
+	
+	public static boolean testCheckMateWhite() {
+		return false;
+	}
+	
+	public static boolean testCheckMateBlack() {
+		// Try every possible move
+		for(Square s : BOARD_SQUARES) {
+			Piece p = s.getPiece();
+			if(s.hasPiece() && (p.getTeamColor()).equals(TeamColor.BLACK)) {
+				if(!p.getPossibleMoves().isEmpty()) {
+					for(int[] potentialMove : p.getPossibleMoves()) {
+						if(hasSquare(potentialMove)) {
+							s.movePiece(getSquare(potentialMove));
+							if(!testCheckBlack()) {
+								getSquare(potentialMove).movePiece(s);
+								return false;
+							}
+							
+							// Undo move
+							getSquare(potentialMove).movePiece(s);
+						}
+					}
+				}
+				
+			}
+		}
+		return true;
 	}
 	
 	public static void reset() throws IOException {
@@ -276,12 +307,14 @@ public class ChessBoard extends JPanel {
 		instructions.setMinimumSize(new Dimension(900, 700));
 		instructions.setVisible(true);
 		
-		
+		// Adding instructions
 		JLabel paragraph = new JLabel();
 		paragraph.setAlignmentY(TOP_ALIGNMENT);
 		paragraph.setText("<html><body><h1>GAME INSTRUCTIONS:</h1>"
 				+ "<p>How to play Chess</p></body></html>");
 		
+		
+		// Adding a close button
 		JButton button = new JButton("Okay");
 		button.addActionListener(new ActionListener() {
 			@Override

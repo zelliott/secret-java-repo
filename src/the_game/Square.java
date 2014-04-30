@@ -103,6 +103,10 @@ public class Square extends JButton {
 			// whose turn it is
 			boolean correctTurn = hasPiece() && (getPiece().getTeamColor()).equals(ChessBoard.getTurn());
 			if(hasPiece() && correctTurn) {
+				
+				// Set protected squares
+				ChessBoard.setProtectedSquares();
+				
 				// Color/focus the clicked square/piece
 				setTempBackgroundColor(Color.ORANGE);
 				getPiece().setFocus(true);
@@ -148,45 +152,58 @@ public class Square extends JButton {
 					// Check to make sure that the target square and current
 					// square are not the same
 					if(!this.equals(s)) {
+						Piece savedPiece = null;
+						if(hasPiece()) {
+							savedPiece = getPiece();
+						}
 						movePiece(s);
 						
 						ChessBoard.setProtectedSquares();
 						
 						// Test for check
 						// 1) Find out what color the moved piece is
-						if((ChessBoard.getTurn()) == TeamColor.WHITE) {
-							if(ChessBoard.testCheckWhite()) {
-								// Undo move
-								s.movePiece(ChessBoard.getSquare(STORED_POSITION));
-								GameInfoPanel.gameStatus.setText("Illegal move, white in check");
-							} else if(ChessBoard.testCheckBlack()) {
-								// Move is okay, black is now in check
-								GameInfoPanel.gameStatus.setText("Okay move, black in check");
-								// Switch players' turn
-								ChessBoard.switchTurn();
-							} else {
-								// Move is okay, nothing happened
-								GameInfoPanel.gameStatus.setText("No one in check");
-								// Switch players' turn
-								ChessBoard.switchTurn();
+						if(ChessBoard.testCheckWhite() && ChessBoard.getTurn().equals(TeamColor.WHITE)) {
+							// Undo move
+							s.movePiece(ChessBoard.getSquare(STORED_POSITION));
+							if(savedPiece!=null) {
+								setIcon(savedPiece);
 							}
+							GameInfoPanel.gameStatus.setText("Illegal move, white in check");
+						} else if(ChessBoard.testCheckBlack() && ChessBoard.getTurn().equals(TeamColor.WHITE)) {
 							
-						} else {
-							if(ChessBoard.testCheckBlack()) {
-								// Undo move
-								s.movePiece(ChessBoard.getSquare(STORED_POSITION));
-								GameInfoPanel.gameStatus.setText("Illegal move, black in check");
-							} else if(ChessBoard.testCheckWhite()) {
-								// Move is okay, white is now in check
-								GameInfoPanel.gameStatus.setText("Okay move, white in check");
-								// Switch players' turn
-								ChessBoard.switchTurn();
-							} else {
-								// Move is okay, nothing happened
-								GameInfoPanel.gameStatus.setText("No one in check");
-								// Switch players' turn
-								ChessBoard.switchTurn();
+							// Test to see if there is CheckMate
+							//if(ChessBoard.testCheckMateBlack()) {
+							//	GameInfoPanel.gameStatus.setText("Checkmate!");
+							//} else {
+								// Move is okay, black is now in check
+								GameInfoPanel.gameStatus.setText("Black in check");
+							//}
+							// Switch players' turn
+							ChessBoard.switchTurn();
+						} else if(ChessBoard.testCheckBlack() && ChessBoard.getTurn().equals(TeamColor.BLACK)) {
+							// Undo move
+							s.movePiece(ChessBoard.getSquare(STORED_POSITION));
+							if(savedPiece!=null) {
+								setIcon(savedPiece);
 							}
+							GameInfoPanel.gameStatus.setText("Illegal move, black in check");
+						} else if(ChessBoard.testCheckWhite() && ChessBoard.getTurn().equals(TeamColor.BLACK)) {
+							
+							// Test to see if there is CheckMate
+							//if(ChessBoard.testCheckMateWhite()) {
+							//	GameInfoPanel.gameStatus.setText("Checkmate!");
+							//} else {
+								// Move is okay, white is now in check
+								GameInfoPanel.gameStatus.setText("White in check");
+							//}
+							
+							// Switch players' turn
+							ChessBoard.switchTurn();
+						} else {
+							// Move is okay, nothing happened
+							GameInfoPanel.gameStatus.setText("No one in check");
+							// Switch players' turn
+							ChessBoard.switchTurn();
 						}
 					}
 				}
