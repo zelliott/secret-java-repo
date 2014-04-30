@@ -8,8 +8,9 @@ import javax.swing.*;
 
 public class Game implements Runnable {
 
-	private static final int WINDOW_MIN_WIDTH = 700;
+	private static final int WINDOW_MIN_WIDTH = 900;
 	private static final int WINDOW_MIN_HEIGHT = 700;
+	public static ChessBoard board;
 	
 	@Override
 	public void run() {
@@ -17,7 +18,7 @@ public class Game implements Runnable {
 		
 		// Panel containing ChessBoard and GameInfoPanel
 		final JPanel topLevelContentPanel = new JPanel();
-		ChessBoard board = new ChessBoard();
+		board = new ChessBoard();
 		topLevelContentPanel.add(board);
 		topLevelContentPanel.add(new GameInfoPanel());
 		

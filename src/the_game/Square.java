@@ -136,7 +136,7 @@ public class Square extends JButton {
 				String piecePosition = String.valueOf((getPiece().getPosition())[0]) + ", " + 
 						       String.valueOf((getPiece().getPosition())[1]);
 				
-				GameInfoPanel.info.setText(printPossibleMoves + "  |||   " + piecePosition);
+				//GameInfoPanel.info.setText(printPossibleMoves + "  |||   " + piecePosition);
 				
 			}
 			

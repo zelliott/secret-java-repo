@@ -59,7 +59,7 @@ public class ChessBoard extends JPanel {
 		add(boardPanel);
 	}
 	
-	public void initialize() throws IOException {
+	public static void initialize() throws IOException {
 		int count = 0;
 		for(Square s : BOARD_SQUARES) {
 			if(count==0 || count==7) {
@@ -147,7 +147,7 @@ public class ChessBoard extends JPanel {
 		}
 		
 		// Now set colors
-		for(Square s : BOARD_SQUARES) {
+		/*for(Square s : BOARD_SQUARES) {
 			if(s.protectedByBlack && s.protectedByWhite) {
 				s.setBackground(Color.RED);
 			} else if(s.protectedByWhite) {
@@ -155,7 +155,7 @@ public class ChessBoard extends JPanel {
 			} else if(s.protectedByBlack) {
 				s.setBackground(Color.BLUE);
 			}
-		}
+		}*/
 	}
 	
 	public static boolean hasSquare(int[] position) {
@@ -255,5 +255,44 @@ public class ChessBoard extends JPanel {
 			GameInfoPanel.inCheckBlack.setText("Black is not in check");
 			return false;
 		}
+	}
+	
+	public static void reset() throws IOException {
+		for(Square s : BOARD_SQUARES) {
+			s.removePiece();
+		}
+		turn = WHITE;
+		initialize();
+		setProtectedSquares();
+		
+		GameInfoPanel.whoseTurn.setText("White's Turn");
+		GameInfoPanel.inCheckWhite.setText("White is not in check");
+		GameInfoPanel.inCheckBlack.setText("Black is not in check");
+		GameInfoPanel.gameStatus.setText("Running normally");
+	}
+	
+	public void showInstructions() {
+		final JDialog instructions = new JDialog();
+		instructions.setMinimumSize(new Dimension(900, 700));
+		instructions.setVisible(true);
+		
+		
+		JLabel paragraph = new JLabel();
+		paragraph.setAlignmentY(TOP_ALIGNMENT);
+		paragraph.setText("<html><body><h1>GAME INSTRUCTIONS:</h1>"
+				+ "<p>How to play Chess</p></body></html>");
+		
+		JButton button = new JButton("Okay");
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				instructions.dispose();
+			}
+		});
+		
+		
+		instructions.add(paragraph);
+		instructions.add(button);
+		instructions.pack();
 	}
 }
