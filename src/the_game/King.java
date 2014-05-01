@@ -18,6 +18,7 @@ import static the_game.PieceType.*;
 public class King extends Piece {
 	
 	private BufferedImage image;
+	public boolean canCastle = true;
 	
 	public King(TeamColor tc) throws IOException {
 		super(tc, KING);
@@ -39,16 +40,62 @@ public class King extends Piece {
 		
 		// Castling check
 		if(super.getTeamColor() == TeamColor.WHITE) {
-			// If King hasn't moved
-				// Then check if Either rook hasn't moved
-				// Then check to make sure no pieces are blocking
-				// Then check to make sure you would not be in check
-				// If so, allow king to move 2 to that direction and rook to move
+			if(canCastle) {
+				if(!ChessBoard.getSquare(new int[]{5,8}).protectedByBlack &&
+				   !ChessBoard.getSquare(new int[]{6,8}).hasPiece() &&
+				   !ChessBoard.getSquare(new int[]{6,8}).protectedByBlack &&
+				   !ChessBoard.getSquare(new int[]{7,8}).hasPiece() &&
+				   !ChessBoard.getSquare(new int[]{7,8}).protectedByBlack &&
+				   ChessBoard.getSquare(new int[]{8,8}).hasPiece() &&
+				   (ChessBoard.getSquare(new int[]{8,8}).getPiece().getPieceType()).equals(PieceType.ROOK) &&
+				   ((Rook)ChessBoard.getSquare(new int[]{8,8}).getPiece()).canCastle) {
+					listOfLegalMoves.add(new int[]{position[0]+2, position[1]});
+				}
+				if(!ChessBoard.getSquare(new int[]{5,8}).protectedByBlack &&
+				   !ChessBoard.getSquare(new int[]{4,8}).hasPiece() &&
+				   !ChessBoard.getSquare(new int[]{4,8}).protectedByBlack &&
+				   !ChessBoard.getSquare(new int[]{3,8}).hasPiece() &&
+				   !ChessBoard.getSquare(new int[]{3,8}).protectedByBlack &&
+				   !ChessBoard.getSquare(new int[]{2,8}).hasPiece() &&
+				   !ChessBoard.getSquare(new int[]{2,8}).protectedByBlack &&
+				   ChessBoard.getSquare(new int[]{1,8}).hasPiece() &&
+				   (ChessBoard.getSquare(new int[]{1,8}).getPiece().getPieceType()).equals(PieceType.ROOK) &&
+				   ((Rook)ChessBoard.getSquare(new int[]{1,8}).getPiece()).canCastle) {
+					listOfLegalMoves.add(new int[]{position[0]-2, position[1]});
+				}
+			}
 		} else {
-			// Likewise for black
+			if(canCastle) {
+				if(!ChessBoard.getSquare(new int[]{5,1}).protectedByWhite &&
+				   !ChessBoard.getSquare(new int[]{6,1}).hasPiece() &&
+				   !ChessBoard.getSquare(new int[]{6,1}).protectedByWhite &&
+				   !ChessBoard.getSquare(new int[]{7,1}).hasPiece() &&
+				   !ChessBoard.getSquare(new int[]{7,1}).protectedByWhite &&
+				   ChessBoard.getSquare(new int[]{8,1}).hasPiece() &&
+				   (ChessBoard.getSquare(new int[]{8,1}).getPiece().getPieceType()).equals(PieceType.ROOK) &&
+				   ((Rook)ChessBoard.getSquare(new int[]{8,1}).getPiece()).canCastle) {
+					listOfLegalMoves.add(new int[]{position[0]+2, position[1]});
+				}
+				if(!ChessBoard.getSquare(new int[]{5,1}).protectedByWhite &&
+				   !ChessBoard.getSquare(new int[]{4,1}).hasPiece() &&
+				   !ChessBoard.getSquare(new int[]{4,1}).protectedByWhite &&
+				   !ChessBoard.getSquare(new int[]{3,1}).hasPiece() &&
+				   !ChessBoard.getSquare(new int[]{3,1}).protectedByWhite &&
+				   !ChessBoard.getSquare(new int[]{2,1}).hasPiece() &&
+				   !ChessBoard.getSquare(new int[]{2,1}).protectedByWhite &&
+				   ChessBoard.getSquare(new int[]{1,1}).hasPiece() &&
+				   (ChessBoard.getSquare(new int[]{1,1}).getPiece().getPieceType()).equals(PieceType.ROOK) &&
+				   ((Rook)ChessBoard.getSquare(new int[]{1,1}).getPiece()).canCastle) {
+					listOfLegalMoves.add(new int[]{position[0]-2, position[1]});
+				}
+			}
 		}
 		
 		return super.cleanLegalMoves(listOfLegalMoves);
+	}
+	
+	public void canNotCastle() {
+		canCastle = false;
 	}
 
 }

@@ -16,6 +16,8 @@ import static the_game.PieceType.*;
 
 public class Rook extends Piece {
 	
+	public boolean canCastle = true;
+	
 	public Rook(TeamColor tc) throws IOException {
 		super(tc, ROOK);
 	}
@@ -80,5 +82,8 @@ public class Rook extends Piece {
 		
 		return super.cleanLegalMoves(listOfLegalMoves);
 	}
-
+	
+	public void canNotCastle() {
+		canCastle = false;
+	}
 }

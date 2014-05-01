@@ -71,13 +71,17 @@ public class Square extends JButton {
 		setIcon(null);
 	}
 	
-	// Moves the piece to this square from the target Square s
+	// Moves the piece to this square from the Square s
 	public void movePiece(Square s) {
 		setIcon(s.getPiece());
 		s.removePiece();
 		
 		// Update the positions/potential positions of all pieces
 		ChessBoard.updatePositions();
+	}
+	
+	public void enPassant(int[] startPos, int[] targetPos) {
+		// Not implemented
 	}
 	
 	
@@ -156,28 +160,81 @@ public class Square extends JButton {
 						if(hasPiece()) {
 							savedPiece = getPiece();
 						}
-						movePiece(s);
+						
+						// enPassant
+						// Not implemented
+						//if(getPiece().getPieceType().equals(PieceType.PAWN)) {
+						//	enPassant(s.getPosition(), STORED_POSITION);
+						//}
+						
+						
+						// Castling check
+						if(s.hasPiece() && s.getPiece().getPieceType().equals(PieceType.KING)) {
+							((King)s.getPiece()).canNotCastle();
+						}
+						if(s.hasPiece() && s.getPiece().getPieceType().equals(PieceType.ROOK)) {
+							((Rook)s.getPiece()).canNotCastle();
+						}
+						
+						// Move rook when castling
+						Piece castlingSave = null;
+						
+						if(s.hasPiece() && s.getPiece().getPieceType().equals(PieceType.KING) &&
+						   (s.getPosition()[0] - getPosition()[0])==-2 &&
+						   s.getPiece().getTeamColor().equals(TeamColor.WHITE)) {
+							castlingSave = ChessBoard.getSquare(new int[]{6,8}).getPiece();
+							ChessBoard.getSquare(new int[]{6,8}).setIcon(ChessBoard.getSquare(new int[]{8,8}).getPiece());
+							ChessBoard.getSquare(new int[]{8,8}).removePiece();
+						} 
+						if(s.hasPiece() && s.getPiece().getPieceType().equals(PieceType.KING) &&
+						   (s.getPosition()[0] - getPosition()[0])==2 &&
+						   s.getPiece().getTeamColor().equals(TeamColor.WHITE)) {
+							castlingSave = ChessBoard.getSquare(new int[]{4,8}).getPiece();
+							ChessBoard.getSquare(new int[]{4,8}).setIcon(ChessBoard.getSquare(new int[]{1,8}).getPiece());
+							ChessBoard.getSquare(new int[]{1,8}).removePiece();
+						}
+						if(s.hasPiece() && s.getPiece().getPieceType().equals(PieceType.KING) &&
+						   (s.getPosition()[0] - getPosition()[0])==-2 &&
+						   s.getPiece().getTeamColor().equals(TeamColor.BLACK)) {
+							castlingSave = ChessBoard.getSquare(new int[]{6,1}).getPiece();
+							ChessBoard.getSquare(new int[]{6,1}).setIcon(ChessBoard.getSquare(new int[]{8,1}).getPiece());
+							ChessBoard.getSquare(new int[]{8,1}).removePiece();
+						}
+						if(s.hasPiece() && s.getPiece().getPieceType().equals(PieceType.KING) &&
+						   (s.getPosition()[0] - getPosition()[0])==2 &&
+						   s.getPiece().getTeamColor().equals(TeamColor.BLACK)) {
+							castlingSave = ChessBoard.getSquare(new int[]{4,1}).getPiece();
+							ChessBoard.getSquare(new int[]{4,1}).setIcon(ChessBoard.getSquare(new int[]{1,1}).getPiece());
+							ChessBoard.getSquare(new int[]{1,1}).removePiece();
+						}
+						
+						// Move piece FROM Square s
+						if(castlingSave != null) {
+							setIcon(castlingSave);
+						} else {
+							movePiece(s);
+						}
+						
 						
 						ChessBoard.setProtectedSquares();
 						
 						// Test for check
-						// 1) Find out what color the moved piece is
 						if(ChessBoard.testCheckWhite() && ChessBoard.getTurn().equals(TeamColor.WHITE)) {
 							// Undo move
 							s.movePiece(ChessBoard.getSquare(STORED_POSITION));
-							if(savedPiece!=null) {
+							if(savedPiece != null) {
 								setIcon(savedPiece);
 							}
 							GameInfoPanel.gameStatus.setText("Illegal move, white in check");
 						} else if(ChessBoard.testCheckBlack() && ChessBoard.getTurn().equals(TeamColor.WHITE)) {
 							
 							// Test to see if there is CheckMate
-							//if(ChessBoard.testCheckMateBlack()) {
-							//	GameInfoPanel.gameStatus.setText("Checkmate!");
-							//} else {
+							if(ChessBoard.testCheckMateBlack()) {
+								GameInfoPanel.gameStatus.setText("Checkmate!");
+							} else {
 								// Move is okay, black is now in check
-								GameInfoPanel.gameStatus.setText("Black in check");
-							//}
+								GameInfoPanel.gameStatus.setText("Not checkmate");
+							}
 							// Switch players' turn
 							ChessBoard.switchTurn();
 						} else if(ChessBoard.testCheckBlack() && ChessBoard.getTurn().equals(TeamColor.BLACK)) {
@@ -190,12 +247,12 @@ public class Square extends JButton {
 						} else if(ChessBoard.testCheckWhite() && ChessBoard.getTurn().equals(TeamColor.BLACK)) {
 							
 							// Test to see if there is CheckMate
-							//if(ChessBoard.testCheckMateWhite()) {
-							//	GameInfoPanel.gameStatus.setText("Checkmate!");
-							//} else {
+							if(ChessBoard.testCheckMateWhite()) {
+								GameInfoPanel.gameStatus.setText("Checkmate!");
+							} else {
 								// Move is okay, white is now in check
-								GameInfoPanel.gameStatus.setText("White in check");
-							//}
+								GameInfoPanel.gameStatus.setText("Not checkmate");
+							}
 							
 							// Switch players' turn
 							ChessBoard.switchTurn();

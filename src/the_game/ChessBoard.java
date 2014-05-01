@@ -249,7 +249,6 @@ public class ChessBoard extends JPanel {
 				}
 			}
 		}
-		
 		if(getSquare(blackKingPosition).protectedByWhite) {
 			GameInfoPanel.inCheckBlack.setText("Black is in check");
 			return true;
@@ -260,32 +259,75 @@ public class ChessBoard extends JPanel {
 	}
 	
 	public static boolean testCheckMateWhite() {
-		return false;
+		// Try every possible move
+				int i = 0;
+				for(Square s : BOARD_SQUARES) {
+					Piece p = s.getPiece();
+					if(s.hasPiece() && (p.getTeamColor()).equals(TeamColor.WHITE)) {
+						if(!p.getPossibleMoves().isEmpty()) {
+							for(int[] potentialMove : p.getPossibleMoves()) {
+								if(hasSquare(potentialMove)) {
+									
+									// Completely move piece
+									Square targetSquare = getSquare(potentialMove);
+									Piece savedPiece = targetSquare.getPiece();
+									targetSquare.setIcon(p);
+									s.removePiece();
+									
+									// Update positions/square protections
+									updatePositions();
+									setProtectedSquares();
+									
+									// Test if still in check
+									if(!testCheckWhite()) {
+										i++;
+									}
+									
+									// Undo move
+									targetSquare.setIcon(savedPiece);
+									s.setIcon(p);
+								}
+							}
+						}
+					}
+				}
+				return (i==0);
 	}
 	
 	public static boolean testCheckMateBlack() {
 		// Try every possible move
+		int i = 0;
 		for(Square s : BOARD_SQUARES) {
 			Piece p = s.getPiece();
 			if(s.hasPiece() && (p.getTeamColor()).equals(TeamColor.BLACK)) {
 				if(!p.getPossibleMoves().isEmpty()) {
 					for(int[] potentialMove : p.getPossibleMoves()) {
 						if(hasSquare(potentialMove)) {
-							s.movePiece(getSquare(potentialMove));
+							
+							// Completely move piece
+							Square targetSquare = getSquare(potentialMove);
+							Piece savedPiece = targetSquare.getPiece();
+							targetSquare.setIcon(p);
+							s.removePiece();
+							
+							// Update positions/square protections
+							updatePositions();
+							setProtectedSquares();
+							
+							// Test if still in check
 							if(!testCheckBlack()) {
-								getSquare(potentialMove).movePiece(s);
-								return false;
+								i++;
 							}
 							
 							// Undo move
-							getSquare(potentialMove).movePiece(s);
+							targetSquare.setIcon(savedPiece);
+							s.setIcon(p);
 						}
 					}
 				}
-				
 			}
 		}
-		return true;
+		return (i==0);
 	}
 	
 	public static void reset() throws IOException {
@@ -294,6 +336,7 @@ public class ChessBoard extends JPanel {
 		}
 		turn = WHITE;
 		initialize();
+		clearFocus();
 		setProtectedSquares();
 		
 		GameInfoPanel.whoseTurn.setText("White's Turn");
@@ -306,6 +349,10 @@ public class ChessBoard extends JPanel {
 		final JDialog instructions = new JDialog();
 		instructions.setMinimumSize(new Dimension(900, 700));
 		instructions.setVisible(true);
+		
+		// Adding panel for button
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		
 		// Adding instructions
 		JLabel paragraph = new JLabel();
@@ -324,8 +371,9 @@ public class ChessBoard extends JPanel {
 		});
 		
 		
-		instructions.add(paragraph);
-		instructions.add(button);
+		panel.add(paragraph);
+		panel.add(button);
+		instructions.add(panel);
 		instructions.pack();
 	}
 }

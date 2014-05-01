@@ -41,7 +41,9 @@ public class Pawn extends Piece {
 					listOfLegalMoves.add(positionFrontOfPawn);
 				}
 				// If there is NOT a piece on positionTwoMovesFrontOfPawn
-				if(!(ChessBoard.hasSquare(positionTwoMovesFrontOfPawn) && (ChessBoard.getSquare(positionTwoMovesFrontOfPawn)).hasPiece())) {
+				// or positionFrontOfPawn
+				if(!(ChessBoard.hasSquare(positionTwoMovesFrontOfPawn) && (ChessBoard.getSquare(positionTwoMovesFrontOfPawn)).hasPiece()) &&
+				   !(ChessBoard.hasSquare(positionFrontOfPawn) && (ChessBoard.getSquare(positionFrontOfPawn)).hasPiece())) {
 					listOfLegalMoves.add(positionTwoMovesFrontOfPawn);
 				}
 			} else {
@@ -73,7 +75,9 @@ public class Pawn extends Piece {
 					listOfLegalMoves.add(positionFrontOfPawn);
 				}
 				// If there is NOT a piece on positionTwoMovesFrontOfPawn
-				if(!(ChessBoard.hasSquare(positionTwoMovesFrontOfPawn) && (ChessBoard.getSquare(positionTwoMovesFrontOfPawn)).hasPiece())) {
+				// or positionFrontOfPawn
+				if(!(ChessBoard.hasSquare(positionTwoMovesFrontOfPawn) && (ChessBoard.getSquare(positionTwoMovesFrontOfPawn)).hasPiece()) &&
+				   !(ChessBoard.hasSquare(positionFrontOfPawn) && (ChessBoard.getSquare(positionFrontOfPawn)).hasPiece())) {
 					listOfLegalMoves.add(positionTwoMovesFrontOfPawn);
 				}
 			} else {
